@@ -83,7 +83,7 @@ data class PcAutofillState(
 
 /**
  * Phone side of PC autofill: relay registration, pairing, and approving fill requests
- * (DESIGN.md flows 3–4, PROTOCOL.md §5–6). The relay connection is open whenever the app is in
+ * (PROTOCOL.md §5–6). The relay connection is open whenever the app is in
  * the foreground with the vault unlocked, so requests reach the approval dialog at once; in the
  * background the relay queues them and wakes the phone with FCM.
  */

@@ -120,7 +120,7 @@ interface CipherManager {
 
     /**
      * Moves a login to L2: password and TOTP are encrypted with the L2 key and plaintext
-     * password history is removed (DESIGN.md, flow 2).
+     * password history is removed.
      */
     suspend fun moveCipherToL2(cipherId: String): UpdateCipherResult
 

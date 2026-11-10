@@ -646,8 +646,8 @@ class CipherManagerImpl(
     }
 
     /**
-     * Every encryption in this class goes through here, so plaintext never replaces an L2 value
-     * (DESIGN.md): [L2Manager.protect] compares against the cipher as stored on disk.
+     * Every encryption in this class goes through here, so plaintext never replaces an L2 value:
+     * [L2Manager.protect] compares against the cipher as stored on disk.
      */
     private suspend fun encryptL2Guarded(
         userId: String,

@@ -33,7 +33,7 @@ private const val AES_KEY_BITS = 256
 /**
  * [L2KeyStore] backed by the Android Keystore. The Keystore key needs no per-use user
  * authentication: the L2 key is only usable while the vault is unlocked, and PC fill approvals
- * ask for biometrics separately (DESIGN.md, threat model: the phone is trusted).
+ * ask for biometrics separately (threat model: the phone is trusted).
  */
 class L2KeyStoreImpl(
     private val prefs: SharedPreferences,

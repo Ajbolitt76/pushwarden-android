@@ -44,7 +44,7 @@ enum class L2SetupError {
 class L2SetupException(val error: L2SetupError, cause: Throwable? = null) :
     Exception(error.name, cause)
 
-/** Creates, unlocks and re-wraps the L2 key item (DESIGN.md flow 1, PROTOCOL.md §1). */
+/** Creates, unlocks and re-wraps the L2 key item (PROTOCOL.md §1). */
 interface L2SetupManager {
     /** True when this phone holds the L2 key for the active user. */
     val isSetUp: Boolean

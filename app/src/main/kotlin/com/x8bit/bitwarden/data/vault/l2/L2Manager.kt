@@ -15,7 +15,7 @@ data class L2ItemStatus(val hosts: List<String>?, val username: String?)
 class L2NotSetUpException : Exception("L2 is not set up on this phone")
 
 /**
- * Core L2 operations on ciphers for the active user (DESIGN.md, PROTOCOL.md §2). Reading
+ * Core L2 operations on ciphers for the active user (PROTOCOL.md §2). Reading
  * decrypts L2 fields; writing never lets plaintext replace an L2 value.
  */
 interface L2Manager {
