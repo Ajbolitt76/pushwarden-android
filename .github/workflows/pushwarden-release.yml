@@ -37,8 +37,8 @@ jobs:
           apksigner=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner
           mkdir -p dist
           "$apksigner" sign --ks "$RUNNER_TEMP/release.jks" --ks-pass env:KEYSTORE_PASSWORD --ks-key-alias "$KEY_ALIAS" \
-            --out "dist/pushwarden-${GITHUB_REF_NAME}.apk" app/build/outputs/apk/fdroid/release/*.apk
-          "$apksigner" verify --print-certs "dist/pushwarden-${GITHUB_REF_NAME}.apk"
+            --out "dist/pushwarden-${GITHUB_REF_NAME#pushwarden-}.apk" app/build/outputs/apk/fdroid/release/*.apk
+          "$apksigner" verify --print-certs "dist/pushwarden-${GITHUB_REF_NAME#pushwarden-}.apk"
 
       - uses: actions/upload-artifact@v4
         with:
