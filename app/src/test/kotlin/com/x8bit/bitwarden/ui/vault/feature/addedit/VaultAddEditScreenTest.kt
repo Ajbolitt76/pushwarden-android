@@ -118,6 +118,7 @@ class VaultAddEditScreenTest : BitwardenComposeTest() {
     private val viewModel = mockk<VaultAddEditViewModel>(relaxed = true) {
         every { eventFlow } returns mutableEventFlow
         every { stateFlow } returns mutableStateFlow
+        every { level2StateFlow } returns kotlinx.coroutines.flow.MutableStateFlow(null)
     }
     private val exitManager: ExitManager = mockk {
         every { exitApplication() } just runs

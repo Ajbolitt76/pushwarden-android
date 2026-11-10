@@ -15,6 +15,10 @@ import com.bitwarden.annotation.OmitFromCoverage
 import com.bitwarden.ui.platform.base.util.composableWithRootPushTransitions
 import com.bitwarden.ui.platform.base.util.composableWithSlideTransitions
 import com.bitwarden.ui.platform.util.ParcelableRouteSerializer
+import com.x8bit.bitwarden.ui.platform.feature.settings.level2.level2Destination
+import com.x8bit.bitwarden.ui.platform.feature.settings.level2.navigateToLevel2
+import com.x8bit.bitwarden.ui.platform.feature.settings.level2.navigateToPcAutofill
+import com.x8bit.bitwarden.ui.platform.feature.settings.level2.pcAutofillDestination
 import com.x8bit.bitwarden.ui.platform.feature.settings.about.aboutDestination
 import com.x8bit.bitwarden.ui.platform.feature.settings.about.navigateToAbout
 import com.x8bit.bitwarden.ui.platform.feature.settings.accountsecurity.accountSecurityDestination
@@ -136,6 +140,7 @@ fun NavGraphBuilder.settingsGraph(
                 onNavigateBack = {},
                 onNavigateToAbout = { navController.navigateToAbout(isPreAuth = false) },
                 onNavigateToAccountSecurity = { navController.navigateToAccountSecurity() },
+                onNavigateToPcAutofill = { navController.navigateToPcAutofill() },
                 onNavigateToAppearance = { navController.navigateToAppearance(isPreAuth = false) },
                 onNavigateToAutoFill = { navController.navigateToAutoFill() },
                 onNavigateToOther = { navController.navigateToOther(isPreAuth = false) },
@@ -178,7 +183,13 @@ fun NavGraphBuilder.settingsGraph(
             onNavigateToFolders = onNavigateToFolders,
             onNavigateToImportLogins = onNavigateToImportLogins,
             onNavigateToImportItems = onNavigateToImportItems,
+            onNavigateToLevel2 = { navController.navigateToLevel2() },
         )
+        level2Destination(
+            onNavigateBack = { navController.popBackStack() },
+            onNavigateToPcAutofill = { navController.navigateToPcAutofill() },
+        )
+        pcAutofillDestination(onNavigateBack = { navController.popBackStack() })
         importItemsDestination(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToImportLogins = onNavigateToImportLogins,

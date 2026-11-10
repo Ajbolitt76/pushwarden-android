@@ -14,6 +14,7 @@ import com.x8bit.bitwarden.data.platform.util.identityAutofillAddress
 import com.x8bit.bitwarden.data.platform.util.identityAutofillName
 import com.x8bit.bitwarden.data.platform.util.isActive
 import com.x8bit.bitwarden.data.platform.util.subtitle
+import com.x8bit.bitwarden.data.vault.l2.L2Manager
 import com.x8bit.bitwarden.data.vault.manager.model.GetCipherResult
 import com.x8bit.bitwarden.data.vault.repository.VaultRepository
 import com.x8bit.bitwarden.data.vault.repository.model.VaultUnlockData
@@ -40,6 +41,7 @@ class AutofillCipherProviderImpl(
     private val cipherMatchingManager: CipherMatchingManager,
     private val vaultRepository: VaultRepository,
     private val policyManager: PolicyManager,
+    private val l2Manager: L2Manager,
 ) : AutofillCipherProvider {
     private val activeUserId: String? get() = authRepository.activeUserId
 
@@ -206,7 +208,8 @@ class AutofillCipherProviderImpl(
                 null
             }
 
-            is GetCipherResult.Success -> result.cipherView
+            // The phone is trusted: L2 items autofill here like any other item.
+            is GetCipherResult.Success -> l2Manager.decrypt(result.cipherView)
         }
 
     /**

@@ -50,6 +50,7 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit,
     onNavigateToAbout: () -> Unit,
     onNavigateToAccountSecurity: () -> Unit,
+    onNavigateToPcAutofill: () -> Unit = {},
     onNavigateToAppearance: () -> Unit,
     onNavigateToAutoFill: () -> Unit,
     onNavigateToOther: () -> Unit,
@@ -69,6 +70,7 @@ fun SettingsScreen(
             SettingsEvent.NavigateOther -> onNavigateToOther()
             SettingsEvent.NavigateVault -> onNavigateToVault()
             SettingsEvent.NavigateAccountSecurityShortcut -> onNavigateToAccountSecurity()
+            SettingsEvent.NavigatePcAutofillShortcut -> onNavigateToPcAutofill()
             SettingsEvent.NavigatePlan -> onNavigateToPlan()
             is SettingsEvent.NavigateToUrl -> intentManager.launchUri(event.url.toUri())
         }

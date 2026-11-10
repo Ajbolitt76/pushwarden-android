@@ -88,6 +88,11 @@ class SettingsViewModel @Inject constructor(
                 specialCircumstanceManager.specialCircumstance = null
             }
 
+            SpecialCircumstance.PcAutofillShortcut -> {
+                sendEvent(SettingsEvent.NavigatePcAutofillShortcut)
+                specialCircumstanceManager.specialCircumstance = null
+            }
+
             else -> Unit
         }
     }
@@ -268,6 +273,11 @@ sealed class SettingsEvent {
      * Navigate to the account security screen via shortcut.
      */
     data object NavigateAccountSecurityShortcut : SettingsEvent(), DeferredBackgroundEvent
+
+    /**
+     * Opened from a PC fill request notification: go to the PC autofill screen.
+     */
+    data object NavigatePcAutofillShortcut : SettingsEvent(), DeferredBackgroundEvent
 
     /**
      * Navigate to the appearance screen.

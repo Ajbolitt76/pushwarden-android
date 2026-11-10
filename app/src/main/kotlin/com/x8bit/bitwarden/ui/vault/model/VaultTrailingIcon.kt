@@ -30,6 +30,11 @@ enum class VaultTrailingIcon(
         contentDescription = BitwardenString.collections.asText(),
         testTag = "CipherInCollectionIcon",
     ),
+    LEVEL_2(
+        iconRes = BitwardenDrawable.ic_locked,
+        contentDescription = BitwardenString.level_2_badge.asText(),
+        testTag = "CipherLevel2Icon",
+    ),
     ATTACHMENT(
         iconRes = BitwardenDrawable.ic_paperclip,
         contentDescription = BitwardenString.attachments.asText(),

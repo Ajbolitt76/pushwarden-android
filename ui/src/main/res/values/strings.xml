@@ -75,9 +75,9 @@
     <string name="yes">Yes</string>
     <string name="account">Account</string>
     <string name="account_created_success">Your new account has been created!</string>
-    <string name="set_bitwarden_as_passkey_manager_description">Set Bitwarden as your passkey provider in device settings.</string>
+    <string name="set_bitwarden_as_passkey_manager_description">Set PushWarden as your passkey provider in device settings.</string>
     <string name="avoid_ambiguous_characters">Avoid ambiguous characters</string>
-    <string name="bitwarden_autofill_service">Bitwarden Autofill Service</string>
+    <string name="bitwarden_autofill_service">PushWarden Autofill Service</string>
     <string name="change_master_password">Change master password</string>
     <string name="close">Close</string>
     <string name="close_app">Close app</string>
@@ -176,7 +176,7 @@
     <string name="no_items_for_vault">There are no items in your vault that match “%1$s”</string>
     <string name="search_for_a_login_or_add_a_new_login">Search for a login or add a new login</string>
     <string name="disabled">Disabled</string>
-    <string name="bitwarden_autofill_service_alert2">The easiest way to add new logins to your vault is from the Bitwarden Autofill Service. Learn more about using the Bitwarden Autofill Service by navigating to the “Settings” screen.</string>
+    <string name="bitwarden_autofill_service_alert2">The easiest way to add new logins to your vault is from the PushWarden Autofill Service. Learn more about using the PushWarden Autofill Service by navigating to the “Settings” screen.</string>
     <string name="autofill_noun">Autofill</string>
     <string name="autofill_verb">Autofill</string>
     <string name="autofill_or_view">Do you want to autofill or view this item?</string>
@@ -298,7 +298,7 @@ Scanning will happen automatically.</string>
     <string name="no_items_folder">There are no items in this folder.</string>
     <string name="no_items_trash">There are no items in the trash.</string>
     <string name="autofill_accessibility_summary">Assist with filling username and password fields in other apps and on the web.</string>
-    <string name="autofill_service_description">The Bitwarden autofill service uses the Android Autofill Framework to assist in filling login information into other apps on your device.</string>
+    <string name="autofill_service_description">The PushWarden autofill service uses the Android Autofill Framework to assist in filling login information into other apps on your device.</string>
     <string name="bitwarden_autofill_go_to_settings">We were unable to automatically open the Android autofill settings menu for you. You can navigate to the autofill settings menu manually from Android Settings &gt; System &gt; Languages and input &gt; Advanced &gt; Autofill service.</string>
     <string name="custom_field_name">Custom field name</string>
     <string name="field_type_boolean">Boolean</string>
@@ -373,7 +373,7 @@ Scanning will happen automatically.</string>
     <string name="pin">PIN</string>
     <string name="unlock">Unlock</string>
     <string name="thirty_minutes">30 minutes</string>
-    <string name="set_pin_description">Your PIN must be at least 4 characters. Your PIN settings will be reset if you manually log out of the Bitwarden app.</string>
+    <string name="set_pin_description">Your PIN must be at least 4 characters. Your PIN settings will be reset if you manually log out of the PushWarden app.</string>
     <string name="logged_in_as_on">Logged in as %1$s on %2$s.</string>
     <string name="vault_locked_master_password">Your vault is locked. Verify your master password to continue.</string>
     <string name="vault_locked_pin">Your vault is locked. Verify your PIN code to continue.</string>
@@ -387,7 +387,7 @@ Scanning will happen automatically.</string>
     <string name="clear_clipboard">Clear clipboard</string>
     <string name="clear_clipboard_description">Automatically clear copied values from your clipboard.</string>
     <string name="default_uri_match_detection">Default URI match detection</string>
-    <string name="default_uri_match_detection_description">URI match detection controls how Bitwarden identifies autofill suggestions.</string>
+    <string name="default_uri_match_detection_description">URI match detection controls how PushWarden identifies autofill suggestions.</string>
     <string name="theme">Theme</string>
     <string name="theme_description">Change the application’s color theme</string>
     <string name="copy_notes">Copy note</string>
@@ -423,7 +423,7 @@ Scanning will happen automatically.</string>
     <string name="password_generator_policy_in_effect">One or more organization policies are affecting your generator settings</string>
     <string name="unable_to_save_attachment">There was a problem saving this attachment. If the problem persists, you can save it from the web vault.</string>
     <string name="save_attachment_success">Attachment saved successfully</string>
-    <string name="autofill_tile_accessibility_required">Please turn on “Autofill Accessibility Service” from Bitwarden Settings to use the Autofill tile.</string>
+    <string name="autofill_tile_accessibility_required">Please turn on “Autofill Accessibility Service” from PushWarden Settings to use the Autofill tile.</string>
     <string name="autofill_tile_uri_not_found">No password fields detected</string>
     <string name="soft_deleting">Sending to trash…</string>
     <string name="item_soft_deleted">Item has been sent to trash.</string>
@@ -638,9 +638,9 @@ select Add TOTP to store the key safely</string>
     <string name="catch_all_email_description">Use your domain’s configured catch-all inbox.</string>
     <string name="forwarded_email_description">Generate an email alias with an external forwarding service.</string>
     <string name="accessibility_service_disclosure">Accessibility Service Disclosure</string>
-    <string name="accessibility_disclosure_text">Bitwarden uses the Accessibility Service to search for login fields in apps and websites, then establish the appropriate field IDs for entering a username &amp; password when a match for the app or site is found. We do not store any of the information presented to us by the service, nor do we make any attempt to control any on-screen elements beyond text entry of credentials.</string>
-    <string name="accessibility_disclosure_start_up_text_1">This notice is required before Bitwarden can offer accessibility-based autofill.</string>
-    <string name="accessibility_disclosure_start_up_text_2">Bitwarden offers an optional autofill method that uses Android’s Accessibility Service to detect login fields. If you enable it, Bitwarden will identify the appropriate fields and fill in your credentials when a match is found.</string>
+    <string name="accessibility_disclosure_text">PushWarden uses the Accessibility Service to search for login fields in apps and websites, then establish the appropriate field IDs for entering a username &amp; password when a match for the app or site is found. We do not store any of the information presented to us by the service, nor do we make any attempt to control any on-screen elements beyond text entry of credentials.</string>
+    <string name="accessibility_disclosure_start_up_text_1">This notice is required before PushWarden can offer accessibility-based autofill.</string>
+    <string name="accessibility_disclosure_start_up_text_2">PushWarden offers an optional autofill method that uses Android’s Accessibility Service to detect login fields. If you enable it, PushWarden will identify the appropriate fields and fill in your credentials when a match is found.</string>
     <string name="accessibility_disclosure_start_up_text_3">We don’t store any information about what’s onscreen while you use the Accessibility Service, and we don’t control any onscreen elements beyond credential entry.</string>
     <string name="i_understand">I understand</string>
     <string name="accept">Accept</string>
@@ -720,8 +720,8 @@ Do you want to switch to this account?</string>
     <string name="session_timeout">Session timeout</string>
     <string name="session_timeout_action">Session timeout action</string>
     <string name="account_fingerprint_phrase">Account fingerprint phrase</string>
-    <string name="passkey_management_explanation_long">Use Bitwarden to save new passkeys and log in with passkeys stored in your vault.</string>
-    <string name="autofill_services_explanation_long">Allow Bitwarden to use your saved login information to sign in to other apps on your device.</string>
+    <string name="passkey_management_explanation_long">Use PushWarden to save new passkeys and log in with passkeys stored in your vault.</string>
+    <string name="autofill_services_explanation_long">Allow PushWarden to use your saved login information to sign in to other apps on your device.</string>
     <string name="use_inline_autofill_explanation_long">Choose how your autofill suggestions will appear when you sign in to other apps on your device.</string>
     <string name="additional_options">Additional options</string>
     <string name="continue_to_web_app">Continue to web app?</string>
@@ -773,7 +773,7 @@ Do you want to switch to this account?</string>
     <string name="email_verified">Email verified</string>
     <string name="get_emails_from_bitwarden_for_announcements_advices_and_research_opportunities_unsubscribe_any_time">Get emails from Bitwarden for announcements, advice, and research opportunities. <annotation link="unsubscribe">Unsubscribe</annotation> at any time.</string>
     <string name="security_prioritized">Security, prioritized</string>
-    <string name="welcome_message_1">Save logins, cards, and identities to your secure vault. Bitwarden uses zero-knowledge, end-to-end encryption to protect what’s important to you.</string>
+    <string name="welcome_message_1">Save logins, cards, and identities to your secure vault. PushWarden uses zero-knowledge, end-to-end encryption to protect what’s important to you.</string>
     <string name="welcome_message_2">Set up biometric unlock and autofill to log into your accounts without typing a single letter.</string>
     <string name="quick_and_easy_login">Quick and easy login</string>
     <string name="level_up_your_logins">Level up your logins</string>
@@ -826,16 +826,16 @@ Do you want to switch to this account?</string>
     <string name="turn_on_autofill">Turn on autofill</string>
     <string name="autofill_setup">Autofill setup</string>
     <string name="turn_on_browser_autofill_integration">Turn on browser autofill integration</string>
-    <string name="browser_requires_special_permissions_for_bitwarden_singular">You’re using a browser that requires special permissions for Bitwarden to autofill your passwords.</string>
-    <string name="browser_requires_special_permissions_for_bitwarden_plural">You’re using browsers that requires special permissions for Bitwarden to autofill your passwords.</string>
-    <string name="youre_using_a_browser_that_requires_special_permissions_singular">You’re using a browser that requires special permissions for Bitwarden to autofill your passwords. Enable your preferred autofill integration below.</string>
-    <string name="youre_using_a_browser_that_requires_special_permissions_plural">You’re using browsers that requires special permissions for Bitwarden to autofill your passwords. Enable autofill for all your installed browsers to continue.</string>
+    <string name="browser_requires_special_permissions_for_bitwarden_singular">You’re using a browser that requires special permissions for PushWarden to autofill your passwords.</string>
+    <string name="browser_requires_special_permissions_for_bitwarden_plural">You’re using browsers that requires special permissions for PushWarden to autofill your passwords.</string>
+    <string name="youre_using_a_browser_that_requires_special_permissions_singular">You’re using a browser that requires special permissions for PushWarden to autofill your passwords. Enable your preferred autofill integration below.</string>
+    <string name="youre_using_a_browser_that_requires_special_permissions_plural">You’re using browsers that requires special permissions for PushWarden to autofill your passwords. Enable autofill for all your installed browsers to continue.</string>
     <string name="use_autofill_to_log_into_your_accounts">Use autofill to log into your accounts with a single tap.</string>
     <string name="turn_on_later">Turn on later</string>
     <string name="turn_on_autofill_later">Turn on autofill later?</string>
     <string name="turn_on_browser_autofill_integration_later">Turn on browser autofill integration later?</string>
     <string name="return_to_complete_this_step_anytime_in_settings">You can return to complete this step anytime in Settings.</string>
-    <string name="what_bitwarden_has_to_offer">You can now explore everything Bitwarden has to offer and start managing your passwords securely.</string>
+    <string name="what_bitwarden_has_to_offer">You can now explore everything PushWarden has to offer and start managing your passwords securely.</string>
     <string name="youre_all_set">You’re all set!</string>
     <string name="error_connecting_with_the_duo_service_use_a_different_two_step_login_method_or_contact_duo_for_assistance">Error connecting with the Duo service. Use a different two-step login method or contact Duo for assistance.</string>
     <string name="master_password_hint_not_specified">Master password hint</string>
@@ -904,7 +904,7 @@ Do you want to switch to this account?</string>
         <item quantity="other">%d notifications</item>
     </plurals>
     <string name="log_in_quickly_and_easily_across_devices">Log in quickly and easily across devices</string>
-    <string name="bitwarden_can_notify_you_each_time_you_receive_a_new_login_request_from_another_device">Bitwarden can notify you each time you receive a new login request from another device.</string>
+    <string name="bitwarden_can_notify_you_each_time_you_receive_a_new_login_request_from_another_device">PushWarden can notify you each time you receive a new login request from another device.</string>
     <string name="skip_for_now">Skip for now</string>
     <string name="done_text">Done</string>
     <string name="page_number_x_of_y">%1$s of %2$s</string>
@@ -1005,7 +1005,7 @@ Do you want to switch to this account?</string>
     <string name="experiencing_an_issue">Experiencing an issue?</string>
     <string name="enable_temporary_logging_to_collect_and_inspect_logs_locally">Enable temporary logging to collect and inspect logs locally. When enabled, application states and network calls may be logged—never sensitive vault information.</string>
     <string name="to_get_started_set_a_logging_duration">To get started, set a logging duration. Logging  will automatically turn off after this period, giving you time to capture activity while reproducing  any issues.</string>
-    <string name="logs_will_be_automatically_deleted_after_30_days">Logs will be automatically deleted after 30 days. Bitwarden is only able to access your log data when you share it.</string>
+    <string name="logs_will_be_automatically_deleted_after_30_days">Logs will be automatically deleted after 30 days. PushWarden is only able to access your log data when you share it.</string>
     <string name="for_details_on_what_is_and_isnt_logged">For details on what is and isn’t logged, visit the\n<annotation link="helpCenter">Bitwarden help center.</annotation></string>
     <string name="logging_duration">Logging duration</string>
     <string name="flight_recorder_one_hour">1 hour</string>
@@ -1044,17 +1044,17 @@ Do you want to switch to this account?</string>
     <string name="missing_send_resync_your_vault">Missing Send re-sync your vault</string>
     <string name="use_dynamic_colors">Use dynamic colors</string>
     <string name="use_dynamic_colors_question">Use dynamic colors?</string>
-    <string name="dynamic_colors_may_not_adhere_to_accessibility_guidelines">This color scheme automatically applies system colors to Bitwarden based on your current wallpaper. These colors may not meet all accessibility guidelines.</string>
+    <string name="dynamic_colors_may_not_adhere_to_accessibility_guidelines">This color scheme automatically applies system colors to PushWarden based on your current wallpaper. These colors may not meet all accessibility guidelines.</string>
     <string name="passkey_operation_failed_because_browser_x_is_not_trusted">Passkey operation failed because browser (%1$s) is not recognized. Select “Trust” to add %1$s to the list of locally trusted applications.</string>
     <string name="passkey_operation_failed_because_the_browser_is_not_trusted">Passkey operation failed because the browser is not trusted.</string>
     <string name="trust">Trust</string>
-    <string name="trusted_by_you_learn_more">These are applications or browsers that Bitwarden does not trust by default, but you trust to perform passkey operations.</string>
-    <string name="trusted_by_community_learn_more">These are applications not included in the Google Play Store, but Bitwarden trusts to perform passkey operations after community members use and report them as safe.</string>
+    <string name="trusted_by_you_learn_more">These are applications or browsers that PushWarden does not trust by default, but you trust to perform passkey operations.</string>
+    <string name="trusted_by_community_learn_more">These are applications not included in the Google Play Store, but PushWarden trusts to perform passkey operations after community members use and report them as safe.</string>
     <string name="trusted_by_google_learn_more">These are applications Google considers safe and are available in Google’s Play Store.</string>
     <string name="trusted_by_you">Trusted by You</string>
     <string name="trusted_by_the_community">Trusted by the Community</string>
     <string name="trusted_by_google">Trusted by Google</string>
-    <string name="privileged_apps_description">To protect users from phishing attempts, by default, Bitwarden only completes passkey operations through applications or web browsers trusted by Google or the Bitwarden community.</string>
+    <string name="privileged_apps_description">To protect users from phishing attempts, by default, PushWarden only completes passkey operations through applications or web browsers trusted by Google or the Bitwarden community.</string>
     <string name="about_privileged_applications">About privileged applications</string>
     <string name="learn_more_about_privileged_apps">Learn more about privileged apps</string>
     <string name="privileged_apps">Privileged apps</string>
@@ -1152,10 +1152,10 @@ Do you want to switch to this account?</string>
     <string name="get_help">Get Help</string>
     <string name="error_cannot_decrypt">[error: cannot decrypt]</string>
     <string name="copy_error_report">Copy error report</string>
-    <string name="bitwarden_could_not_decrypt_this_vault_item_description_long">Bitwarden could not decrypt this vault item. Copy and share this error report with customer success to avoid additional data loss.</string>
+    <string name="bitwarden_could_not_decrypt_this_vault_item_description_long">PushWarden could not decrypt this vault item. Copy and share this error report with customer success to avoid additional data loss.</string>
     <plurals name="bitwarden_could_not_decrypt_x_vault_item_copy_and_share_description_long">
-        <item quantity="one">Bitwarden could not decrypt %1$d vault item. Copy and share this error report with customer success to avoid additional data loss.</item>
-        <item quantity="other">Bitwarden could not decrypt %1$d vault items. Copy and share this error report with customer success to avoid additional data loss.</item>
+        <item quantity="one">PushWarden could not decrypt %1$d vault item. Copy and share this error report with customer success to avoid additional data loss.</item>
+        <item quantity="other">PushWarden could not decrypt %1$d vault items. Copy and share this error report with customer success to avoid additional data loss.</item>
     </plurals>
     <string name="select_a_card_for_x">Select a card for %s</string>
     <string name="choose_an_identity">Choose an identity</string>
@@ -1164,8 +1164,8 @@ Do you want to switch to this account?</string>
     <string name="keep_your_credential_secure">Keep your credentials secure</string>
     <string name="learn_more_about_how_to_keep_credentirals_secure">Learn more about how to keep credentials secure when using “%1$s”.</string>
     <string name="are_you_sure_you_want_to_use">Are you sure you want to use “%1$s”?</string>
-    <string name="default_uri_match_detection_description_advanced_options_incorrectly">URI match detection controls how Bitwarden identifies autofill suggestions.\n<annotation emphasis="bold">Warning:</annotation> “Regular expression” is an advanced option with increased risk of exposing credentials if used incorrectly.</string>
-    <string name="default_uri_match_detection_description_advanced_options">URI match detection controls how Bitwarden identifies autofill suggestions.\n<annotation emphasis="bold">Warning:</annotation> “Starts with” is an advanced option with increased risk of exposing credentials.</string>
+    <string name="default_uri_match_detection_description_advanced_options_incorrectly">URI match detection controls how PushWarden identifies autofill suggestions.\n<annotation emphasis="bold">Warning:</annotation> “Regular expression” is an advanced option with increased risk of exposing credentials if used incorrectly.</string>
+    <string name="default_uri_match_detection_description_advanced_options">URI match detection controls how PushWarden identifies autofill suggestions.\n<annotation emphasis="bold">Warning:</annotation> “Starts with” is an advanced option with increased risk of exposing credentials.</string>
     <string name="advanced_option_with_increased_risk_of_exposing_credentials">“Starts with” is an advanced option with increased risk of exposing credentials.</string>
     <string name="advanced_option_increased_risk_exposing_credentials_used_incorrectly">“Regular expression” is an advanced option with increased risk of exposing credentials if used incorrectly.</string>
     <string name="later">Later</string>
@@ -1190,7 +1190,7 @@ Do you want to switch to this account?</string>
         <item quantity="other">%1$d items have been imported to your vault.</item>
     </plurals>
     <string name="enable_browser_autofill_to_keep_filling_passwords">Enable browser Autofill to keep filling passwords</string>
-    <string name="your_browser_recently_updated_how_autofill_works_singular">Your browser has recently updated, which has disabled Bitwarden autofill. To continue filling your passwords with Bitwarden, enable browser autofill in autofill settings.</string>
+    <string name="your_browser_recently_updated_how_autofill_works_singular">Your browser has recently updated, which has disabled PushWarden autofill. To continue filling your passwords with PushWarden, enable browser autofill in autofill settings.</string>
     <string name="not_now">Not now</string>
     <string name="import_from_bitwarden">Import from Bitwarden</string>
     <string name="select_account">Select account</string>
@@ -1264,7 +1264,7 @@ Do you want to switch to this account?</string>
     <string name="only_include_the_following_domains_x_please_review_and_try_again">Only include the following domains: %1$s. Please review and try again.</string>
     <string name="enter_at_least_one_valid_email_address_to_share_this_send">Enter at least one valid email address to share this Send.</string>
     <string name="sync_with_browser">Sync with browser</string>
-    <string name="sync_with_browser_description">To connect to %1$s, sync your default browser with the Bitwarden mobile app. When your browser opens, complete sign-in if prompted.\nOnce syncing is complete, you’ll be returned to this app.</string>
+    <string name="sync_with_browser_description">To connect to %1$s, sync your default browser with the PushWarden mobile app. When your browser opens, complete sign-in if prompted.\nOnce syncing is complete, you’ll be returned to this app.</string>
     <string name="launch_browser">Launch browser</string>
     <string name="continue_without_syncing">Continue without syncing</string>
     <string name="external_link">External link</string>
@@ -1290,7 +1290,7 @@ Do you want to switch to this account?</string>
     <string name="trusted">Trusted</string>
     <string name="preview_not_available_for_files">Preview unavailable for %1$s files. You can still download it to view on your device.</string>
     <string name="this_file_is_too_large_to_preview">This file is too large to preview. You can still download it to view on your device.</string>
-    <string name="bitwarden_could_not_decrypt_this_file_so_the_preview_cannot_be_displayed">Bitwarden could not decrypt this file, so the preview cannot be displayed.</string>
+    <string name="bitwarden_could_not_decrypt_this_file_so_the_preview_cannot_be_displayed">PushWarden could not decrypt this file, so the preview cannot be displayed.</string>
     <string name="preview_unavailable_for_this_file">Preview unavailable for this file. You can still download it to view on your device.</string>
     <string name="preview_unavailable">Preview unavailable</string>
     <string name="download_attachment">Download Attachment</string>
@@ -1423,8 +1423,8 @@ Do you want to switch to this account?</string>
     <string name="local_network_access_required">Local network access required</string>
     <string name="ask_again_later">Ask again later</string>
     <string name="enable_local_network_access">Enable local network access</string>
-    <string name="bitwarden_needs_local_network_access_to_sync_with_your_server">Bitwarden needs local network access to sync with your server. Without this permission, the app won’t be able to connect.</string>
-    <string name="without_this_permission_bitwarden_wont_be_able_to_sync_with_your_server">Without this permission, Bitwarden won’t be able to connect and sync with your server. You can enable this in your device settings.</string>
+    <string name="bitwarden_needs_local_network_access_to_sync_with_your_server">PushWarden needs local network access to sync with your server. Without this permission, the app won’t be able to connect.</string>
+    <string name="without_this_permission_bitwarden_wont_be_able_to_sync_with_your_server">Without this permission, PushWarden won’t be able to connect and sync with your server. You can enable this in your device settings.</string>
     <string name="your_request_was_interrupted_because_the_app_needs_local_network_access">Your request was interrupted because the app needs local network access. You can enable this in your device settings.</string>
     <string name="continue_to_stripe">Continue to Stripe?</string>
     <string name="youll_be_taken_to_stripe_to_manage_your_subscription_cancellation">You’ll be taken to Stripe to manage your subscription cancellation.</string>
@@ -1446,8 +1446,80 @@ Do you want to switch to this account?</string>
     <string name="use_this_username">Use this username</string>
     <string name="create_login">Create login</string>
     <string name="keep_unlocking_with_biometrics">Keep unlocking with biometrics</string>
-    <string name="weve_made_a_security_update">We’ve made a security update. Confirm your biometrics again to keep using them to unlock Bitwarden.</string>
+    <string name="weve_made_a_security_update">We’ve made a security update. Confirm your biometrics again to keep using them to unlock PushWarden.</string>
     <string name="turn_off">Turn off</string>
     <string name="turn_off_biometric_question">Turn off biometrics?</string>
     <string name="unlocking_will_require_your_master_password">Unlocking will require your master password. You can turn biometrics back on in Settings.</string>
+    <string name="welcome_to_pushwarden">Welcome to PushWarden</string>
+    <string name="pushwarden_is_an_independent_fork_of_bitwarden">An independent fork of Bitwarden with phone approval. Sign in with your Bitwarden account: your vault stays on Bitwarden’s servers and keeps working with the official apps. PushWarden is not affiliated with Bitwarden, Inc.</string>
+    <string name="mark_your_most_important_logins_as_protected">Mark your most important logins as Protected. A computer can fill them only after you approve on this phone, or after you type your protection password. Malware on a computer can’t read them from your vault.</string>
+    <string name="set_it_up_on_this_phone">Set it up on this phone</string>
+    <string name="after_you_log_in_open_settings_protected_items">After you log in, open Settings → Vault → Protected items and choose a protection password. Then edit a login and set Protection to Protected.</string>
+    <string name="connect_your_computer">Connect your computer</string>
+    <string name="install_the_pushwarden_browser_extension_and_pair">Install the PushWarden browser extension, open its Settings → Phone approval, enter your relay address and show the QR code. On this phone, open Settings → Vault → Protected items → Computer approvals and scan it.</string>
+    <string name="level_2_not_set_up_on_this_device">Protected items aren’t set up on this device. Set them up in Settings → Vault → Protected items.</string>
+    <string name="level_2">Protected items</string>
+    <string name="level_2_description">Protected items have their password and verification code encrypted a second time. Computers can only fill them after you approve on this phone or type your protection password.</string>
+    <string name="level_2_status_set_up">Protected items are set up on this device.</string>
+    <string name="level_2_status_locked">Your vault already uses protected items. Enter your protection password to use them on this device.</string>
+    <string name="level_2_status_none">Protected items aren’t set up yet.</string>
+    <string name="level_2_password">Protection password</string>
+    <string name="level_2_password_hint">Use at least 5 random words. It keeps your protected logins safe if a computer is compromised, and it can’t be recovered.</string>
+    <string name="set_up_level_2">Set up protected items</string>
+    <string name="unlock_level_2">Use protected items on this device</string>
+    <string name="change_level_2_password">Change protection password</string>
+    <string name="remove_level_2_from_this_device">Remove protected items from this device</string>
+    <string name="level_2_password_too_short">The protection password must be at least 20 characters.</string>
+    <string name="level_2_wrong_password">Wrong protection password.</string>
+    <string name="level_2_key_item_exists">Your vault already uses protected items. Use “Use protected items on this device” instead.</string>
+    <string name="level_2_multiple_key_items">Your vault has more than one “PushWarden key” item. Delete the extra ones first.</string>
+    <string name="level_2_no_key_item">Your vault doesn’t use protected items yet.</string>
+    <string name="pc_autofill">Computer approvals</string>
+    <string name="pc_autofill_description">Pair a computer’s PushWarden extension with this phone. When the computer fills a protected login, you approve it here.</string>
+    <string name="relay_url">Relay URL</string>
+    <string name="register_with_relay">Register with relay</string>
+    <string name="phone_id_x">Phone ID: %1$s</string>
+    <string name="relay_connected">Connected to relay</string>
+    <string name="relay_not_connected">Not connected to relay</string>
+    <string name="pair_a_computer">Pair a computer</string>
+    <string name="waiting_for_computer">Enter the relay URL and phone ID in the browser extension now.</string>
+    <string name="pair_with_x_compare_words">Pair with “%1$s”? Check that the browser shows exactly these words:</string>
+    <string name="words_match_pair">Words match, pair</string>
+    <string name="words_dont_match">Words don’t match</string>
+    <string name="paired_computers">Paired computers</string>
+    <string name="unpair">Unpair</string>
+    <string name="fill_x_as_y_on_z">Fill %1$s as %2$s on %3$s?</string>
+    <string name="approve_fill">Approve</string>
+    <string name="deny_fill">Deny</string>
+    <string name="level_2_no_hosts">This item has no websites, so it can only be used on this phone.</string>
+    <string name="pc_fill_requests">Fill requests</string>
+    <string name="pc_fill_request">Fill request</string>
+    <string name="pc_fill_request_tap_to_review">A computer wants to fill a protected login. Tap to review it.</string>
+    <string name="security_level">Protection</string>
+    <string name="level_2_switch_label">Protected: approve computer fills on this phone</string>
+    <string name="level_1_description">Computers signed in to your vault can read and fill this password.</string>
+    <string name="level_2_hosts_x">Computers can fill this item only after your approval, and only on: %1$s</string>
+    <string name="level_2_change_password_hint">Computers may already have seen the current password. Consider changing it after saving.</string>
+    <string name="level_2_allow_new_hosts_x">Also allow: %1$s</string>
+    <string name="level_2_allow_new_hosts_hint">These websites were added after the item was protected, possibly on a computer. Allow them only if you added them.</string>
+    <string name="level_2_personal_only">Only items in your personal vault can be protected.</string>
+    <string name="level_2_badge">Protected</string>
+    <string name="level_2_status_x">Computers need your approval on this phone to fill it, and only on %1$s.</string>
+    <string name="level_2_item_locked">Protected items aren’t set up on this device, so its password can’t be shown here.</string>
+    <string name="level_1">Standard</string>
+    <string name="scan_qr_code_from_computer">Scan QR code from computer</string>
+    <string name="scan_qr_code_from_computer_hint">On the computer: PushWarden extension → Settings → Phone approval → Show QR code.</string>
+    <string name="scan_pairing_code_hint">Point the camera at the QR code shown by the PushWarden extension.</string>
+    <string name="pair_with_this_computer">Pair with this computer?</string>
+    <string name="pair_with_x_via_y">Computer: %1$s\nRelay: %2$s\n\nIt will be able to ask this phone to fill protected logins. You approve each fill.</string>
+    <string name="pair">Pair</string>
+    <string name="computer_paired">Computer paired. The extension shows “Paired” too.</string>
+    <string name="not_a_pairing_code">That isn’t a PushWarden pairing code.</string>
+    <string name="pair_manually">Pair manually (advanced)</string>
+    <string name="pc_fill_request_summary">%1$s wants to fill your login on %2$s.</string>
+    <string name="website">Website</string>
+    <string name="item">Item</string>
+    <string name="computer">Computer</string>
+    <string name="expires_in_x_seconds">Expires in %1$d s</string>
+    <string name="pc_fill_request_warning">Only approve if you just asked to fill this on that computer. If you didn’t, deny: someone may be using it.</string>
 </resources>

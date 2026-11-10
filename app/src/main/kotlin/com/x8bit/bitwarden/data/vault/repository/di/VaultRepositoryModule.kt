@@ -6,6 +6,7 @@ import com.x8bit.bitwarden.data.platform.manager.FeatureFlagManager
 import com.x8bit.bitwarden.data.platform.manager.keyrotation.KeyRotationManager
 import com.x8bit.bitwarden.data.vault.datasource.disk.VaultDiskSource
 import com.x8bit.bitwarden.data.vault.datasource.sdk.VaultSdkSource
+import com.x8bit.bitwarden.data.vault.l2.L2Manager
 import com.x8bit.bitwarden.data.vault.manager.CipherManager
 import com.x8bit.bitwarden.data.vault.manager.CredentialExchangeImportManager
 import com.x8bit.bitwarden.data.vault.manager.FolderManager
@@ -46,6 +47,7 @@ object VaultRepositoryModule {
         pinProtectedUserKeyManager: PinProtectedUserKeyManager,
         keyRotationManager: KeyRotationManager,
         featureFlagManager: FeatureFlagManager,
+        l2Manager: L2Manager,
     ): VaultRepository = VaultRepositoryImpl(
         vaultDiskSource = vaultDiskSource,
         vaultSdkSource = vaultSdkSource,
@@ -61,5 +63,6 @@ object VaultRepositoryModule {
         pinProtectedUserKeyManager = pinProtectedUserKeyManager,
         keyRotationManager = keyRotationManager,
         featureFlagManager = featureFlagManager,
+        l2Manager = l2Manager,
     )
 }

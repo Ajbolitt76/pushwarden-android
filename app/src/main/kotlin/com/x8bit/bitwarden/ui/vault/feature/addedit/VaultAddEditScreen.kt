@@ -127,6 +127,7 @@ fun VaultAddEditScreen(
     onCloseAndNavigateToVaultItem: (cipherId: String, cipherType: VaultItemCipherType) -> Unit,
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val level2 by viewModel.level2StateFlow.collectAsStateWithLifecycle()
     val userVerificationHandlers = remember(viewModel) {
         VaultAddEditUserVerificationHandlers.create(viewModel = viewModel)
     }
@@ -471,6 +472,8 @@ fun VaultAddEditScreen(
                         },
                         onCoachMarkDismissed = scrollBackToTop,
                         shouldShowLearnAboutLoginsCard = state.shouldShowLearnAboutNewLogins,
+                        level2 = level2,
+                        onLevel2Change = viewModel::onLevel2Change,
                         modifier = Modifier
                             .fillMaxSize(),
                     )

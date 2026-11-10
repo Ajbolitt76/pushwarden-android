@@ -73,9 +73,11 @@ class VaultUnlockedNavBarViewModel @Inject constructor(
                 specialCircumstancesManager.specialCircumstance = null
             }
 
-            SpecialCircumstance.AccountSecurityShortcut -> {
-                sendEvent(VaultUnlockedNavBarEvent.Shortcut.NavigateToSettingsScreen)
-            }
+            SpecialCircumstance.AccountSecurityShortcut,
+            SpecialCircumstance.PcAutofillShortcut,
+                -> {
+                    sendEvent(VaultUnlockedNavBarEvent.Shortcut.NavigateToSettingsScreen)
+                }
 
             SpecialCircumstance.SendShortcut -> {
                 sendEvent(VaultUnlockedNavBarEvent.Shortcut.NavigateToSendScreen)

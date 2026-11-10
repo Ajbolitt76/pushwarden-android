@@ -38,6 +38,9 @@ import com.x8bit.bitwarden.data.vault.repository.model.VaultData
 import com.x8bit.bitwarden.data.vault.repository.util.sortAlphabetically
 import com.x8bit.bitwarden.data.vault.repository.util.sortAlphabeticallyByTypeAndOrganization
 import com.x8bit.bitwarden.data.vault.repository.util.toDomainsData
+import com.x8bit.bitwarden.data.vault.l2.L2Index
+import com.x8bit.bitwarden.data.vault.l2.isL2Value
+import com.x8bit.bitwarden.data.vault.repository.util.toEncryptedSdkCipher
 import com.x8bit.bitwarden.data.vault.repository.util.toEncryptedSdkCipherList
 import com.x8bit.bitwarden.data.vault.repository.util.toEncryptedSdkCollectionList
 import com.x8bit.bitwarden.data.vault.repository.util.toEncryptedSdkFolderList
@@ -65,6 +68,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.Clock
 import java.time.temporal.ChronoUnit
+import timber.log.Timber
 
 /**
  * A "stop timeout delay" in milliseconds used to let a shared coroutine continue to run for the
@@ -130,11 +134,12 @@ internal class VaultSyncManagerImpl(
 
     override val vaultDataStateFlow: StateFlow<DataState<VaultData>> =
         combine(
-            decryptCipherListResultStateFlow,
+            decryptCipherListResultStateFlow.onEach(::scheduleL2Refresh),
             foldersStateFlow,
             collectionsStateFlow,
             sendDataStateFlow,
-        ) { ciphersDataState, foldersDataState, collectionsDataState, sendsDataState ->
+            L2Index.ids,
+        ) { ciphersDataState, foldersDataState, collectionsDataState, sendsDataState, l2Ids ->
             combineDataStates(
                 ciphersDataState,
                 foldersDataState,
@@ -146,6 +151,7 @@ internal class VaultSyncManagerImpl(
                     collectionViewList = collectionsData,
                     folderViewList = foldersData,
                     sendViewList = sendsData.sendViewList,
+                    l2CipherIds = l2Ids,
                 )
             }
         }
@@ -154,6 +160,61 @@ internal class VaultSyncManagerImpl(
                 started = SharingStarted.WhileSubscribed(stopTimeoutMillis = STOP_TIMEOUT_DELAY_MS),
                 initialValue = DataState.Loading,
             )
+
+    /** Per cipher id: the revision last checked and whether it was level 2. */
+    private val l2Checked = mutableMapOf<String, Pair<java.time.Instant?, Boolean>>()
+    private var l2CheckedUser: String? = null
+
+    private var l2RefreshJob: Job? = null
+
+    /**
+     * Level 2 markers for lists, refreshed whenever the cipher list changes while someone
+     * observes vault data. Only logins whose revision changed since the last check are
+     * decrypted. Not a collector of its own: that would keep the cipher pipeline subscribed.
+     */
+    private fun scheduleL2Refresh(state: DataState<DecryptCipherListResult>) {
+        val list = state.data?.successes ?: return
+        l2RefreshJob?.cancel()
+        l2RefreshJob = ioScope.launch { refreshL2Index(list) }
+    }
+
+    private suspend fun refreshL2Index(list: List<com.bitwarden.vault.CipherListView>) {
+        val userId = activeUserId ?: return
+        if (userId != l2CheckedUser) {
+            l2Checked.clear()
+            l2CheckedUser = userId
+        }
+        val ids = list
+            .filter { it.type is com.bitwarden.vault.CipherListViewType.Login }
+            .mapNotNull { view ->
+                val id = view.id ?: return@mapNotNull null
+                val known = l2Checked[id]?.takeIf { it.first == view.revisionDate }?.second
+                val isL2 = known ?: isStoredL2(userId = userId, cipherId = id)
+                l2Checked[id] = view.revisionDate to isL2
+                id.takeIf { isL2 }
+            }
+            .toSet()
+        L2Index.update(ids)
+    }
+
+    /**
+     * Whether the stored cipher is level 2. Any failure means "not marked": this only drives a
+     * list icon, and an exception here would cancel [ioScope] and with it the vault sync.
+     */
+    private suspend fun isStoredL2(userId: String, cipherId: String): Boolean =
+        try {
+            vaultDiskSource.getCipher(userId = userId, cipherId = cipherId)
+                ?.let { vaultSdkSource.decryptCipher(userId, it.toEncryptedSdkCipher()) }
+                ?.getOrNull()
+                ?.login
+                ?.let { it.password.isL2Value() || it.totp.isL2Value() }
+                ?: false
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Timber.w(e, "Level 2 check failed for a cipher")
+            false
+        }
 
     init {
         // Cancel any ongoing sync request and clear the vault data in memory every time

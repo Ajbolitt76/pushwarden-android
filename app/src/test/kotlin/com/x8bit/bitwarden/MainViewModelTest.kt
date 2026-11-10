@@ -72,6 +72,7 @@ import com.x8bit.bitwarden.data.platform.util.isAddTotpLoginItemFromAuthenticato
 import com.x8bit.bitwarden.data.vault.manager.model.VaultStateEvent
 import com.x8bit.bitwarden.data.vault.repository.VaultRepository
 import com.x8bit.bitwarden.ui.platform.util.isAccountSecurityShortcut
+import com.x8bit.bitwarden.ui.platform.util.isPcAutofillShortcut
 import com.x8bit.bitwarden.ui.platform.util.isMyVaultShortcut
 import com.x8bit.bitwarden.ui.platform.util.isPasswordGeneratorShortcut
 import com.x8bit.bitwarden.ui.platform.util.isPremiumCheckoutCallback
@@ -209,6 +210,7 @@ class MainViewModelTest : BaseViewModelTest() {
             Intent::isMyVaultShortcut,
             Intent::isPasswordGeneratorShortcut,
             Intent::isAccountSecurityShortcut,
+            Intent::isPcAutofillShortcut,
             Intent::isPremiumCheckoutCallback,
         )
         mockkObject(
@@ -242,6 +244,7 @@ class MainViewModelTest : BaseViewModelTest() {
             Intent::isMyVaultShortcut,
             Intent::isPasswordGeneratorShortcut,
             Intent::isAccountSecurityShortcut,
+            Intent::isPcAutofillShortcut,
             Intent::isPremiumCheckoutCallback,
         )
         unmockkObject(
@@ -871,6 +874,18 @@ class MainViewModelTest : BaseViewModelTest() {
         )
     }
 
+    @Test
+    fun `on ReceiveNewIntent from the PC fill request notification sets PcAutofillShortcut`() {
+        val viewModel = createViewModel()
+        viewModel.trySendAction(
+            MainAction.ReceiveNewIntent(intent = createMockIntent(mockIsPcAutofillShortcut = true)),
+        )
+        assertEquals(
+            SpecialCircumstance.PcAutofillShortcut,
+            specialCircumstanceManager.specialCircumstance,
+        )
+    }
+
     @Suppress("MaxLineLength")
     @Test
     fun `on ReceiveFirstIntent with Premium checkout success callback should set PremiumCheckoutResult with isSuccess true`() {
@@ -1427,6 +1442,7 @@ private fun createMockIntent(
     mockIsMyVaultShortcut: Boolean = false,
     mockIsPasswordGeneratorShortcut: Boolean = false,
     mockIsAccountSecurityShortcut: Boolean = false,
+    mockIsPcAutofillShortcut: Boolean = false,
     mockIsPremiumCheckoutCallback: Boolean = false,
     mockIsAddTotpLoginItemFromAuthenticator: Boolean = false,
     mockProviderImportCredentialsRequest: ProviderImportCredentialsRequest? = null,
@@ -1440,6 +1456,7 @@ private fun createMockIntent(
     every { isMyVaultShortcut } returns mockIsMyVaultShortcut
     every { isPasswordGeneratorShortcut } returns mockIsPasswordGeneratorShortcut
     every { isAccountSecurityShortcut } returns mockIsAccountSecurityShortcut
+    every { isPcAutofillShortcut } returns mockIsPcAutofillShortcut
     every { isPremiumCheckoutCallback } returns mockIsPremiumCheckoutCallback
     every { isAddTotpLoginItemFromAuthenticator() } returns mockIsAddTotpLoginItemFromAuthenticator
     every { getProviderImportCredentialsRequest() } returns mockProviderImportCredentialsRequest

@@ -18,4 +18,5 @@ data class VaultData(
     val collectionViewList: List<CollectionView>,
     val folderViewList: List<FolderView>,
     val sendViewList: List<SendView>,
+    val l2CipherIds: Set<String> = emptySet(),
 )

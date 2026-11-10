@@ -56,6 +56,7 @@ fun VaultSettingsScreen(
     onNavigateToFolders: () -> Unit,
     onNavigateToImportLogins: () -> Unit,
     onNavigateToImportItems: () -> Unit,
+    onNavigateToLevel2: () -> Unit = {},
     viewModel: VaultSettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -168,6 +169,17 @@ fun VaultSettingsScreen(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(height = 16.dp))
+            BitwardenTextRow(
+                text = stringResource(BitwardenString.level_2),
+                onClick = onNavigateToLevel2,
+                withDivider = false,
+                cardStyle = CardStyle.Full,
+                modifier = Modifier
+                    .testTag("Level2Label")
+                    .standardHorizontalMargin()
+                    .fillMaxWidth(),
+            )
             Spacer(modifier = Modifier.height(height = 16.dp))
             Spacer(modifier = Modifier.navigationBarsPadding())
         }

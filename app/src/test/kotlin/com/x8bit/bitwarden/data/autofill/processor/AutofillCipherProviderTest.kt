@@ -200,6 +200,7 @@ class AutofillCipherProviderTest {
             cipherMatchingManager = cipherMatchingManager,
             vaultRepository = vaultRepository,
             policyManager = policyManager,
+            l2Manager = mockk { every { decrypt(any()) } answers { firstArg() } },
         )
     }
 

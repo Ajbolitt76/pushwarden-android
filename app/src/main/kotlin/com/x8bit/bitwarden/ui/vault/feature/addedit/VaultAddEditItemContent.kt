@@ -72,6 +72,8 @@ fun CoachMarkScope<AddEditItemCoachMark>.VaultAddEditContent(
     onCoachMarkTourComplete: () -> Unit,
     onCoachMarkDismissed: () -> Unit,
     shouldShowLearnAboutLoginsCard: Boolean,
+    level2: Level2EditState? = null,
+    onLevel2Change: (Level2EditState) -> Unit = {},
 ) {
     val launcher = permissionsManager.getLauncher(
         onResult = { isGranted ->
@@ -267,6 +269,13 @@ fun CoachMarkScope<AddEditItemCoachMark>.VaultAddEditContent(
                     onCoachMarkDismissed = onCoachMarkDismissed,
                     defaultUriMatchType = defaultUriMatchType,
                 )
+                level2?.let {
+                    vaultAddEditLevel2Items(
+                        level2 = it,
+                        uris = state.type.uriList.map { uri -> uri.uri },
+                        onLevel2Change = onLevel2Change,
+                    )
+                }
             }
 
             is VaultAddEditState.ViewState.Content.ItemType.Card -> {

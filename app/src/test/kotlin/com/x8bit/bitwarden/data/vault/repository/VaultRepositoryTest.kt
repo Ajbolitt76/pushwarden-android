@@ -153,6 +153,7 @@ class VaultRepositoryTest {
         pinProtectedUserKeyManager = pinProtectedUserKeyManager,
         keyRotationManager = keyRotationManager,
         featureFlagManager = featureFlagManager,
+        l2Manager = mockk { every { decrypt(any()) } answers { firstArg() } },
     )
 
     @BeforeEach

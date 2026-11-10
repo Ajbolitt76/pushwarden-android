@@ -42,6 +42,7 @@ import com.x8bit.bitwarden.ui.platform.feature.debugmenu.manager.DebugMenuLaunch
 import com.x8bit.bitwarden.ui.platform.feature.debugmenu.navigateToDebugMenuScreen
 import com.x8bit.bitwarden.ui.platform.feature.overlaynav.OverlayNavRoute
 import com.x8bit.bitwarden.ui.platform.feature.overlaynav.overlayNavDestination
+import com.x8bit.bitwarden.ui.platform.feature.settings.level2.PcFillRequestOverlay
 import com.x8bit.bitwarden.ui.platform.model.AuthTabLaunchers
 import com.x8bit.bitwarden.ui.platform.util.appLanguage
 import dagger.hilt.android.AndroidEntryPoint
@@ -288,6 +289,8 @@ private fun MainActivityContent(
                     onSplashScreenRemoved = onSplashScreenRemoved,
                 )
             }
+            // Level 2 fill approvals from paired computers, above whatever screen is open.
+            PcFillRequestOverlay()
         }
     }
 }

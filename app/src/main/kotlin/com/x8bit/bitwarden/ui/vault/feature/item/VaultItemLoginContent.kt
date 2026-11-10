@@ -54,6 +54,7 @@ fun VaultItemLoginContent(
     vaultCommonItemTypeHandlers: VaultCommonItemTypeHandlers,
     vaultLoginItemTypeHandlers: VaultLoginItemTypeHandlers,
     modifier: Modifier = Modifier,
+    level2: Level2ViewStatus? = null,
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(value = false) }
     LazyColumn(
@@ -74,6 +75,7 @@ fun VaultItemLoginContent(
             onExpandClick = { isExpanded = !isExpanded },
             applyIconBackground = commonState.iconData is IconData.Local,
         )
+        level2?.let { level2StatusItem(it) }
         if (loginItemState.hasLoginCredentials) {
             item(key = "loginCredentialsHeader") {
                 Spacer(modifier = Modifier.height(height = 16.dp))

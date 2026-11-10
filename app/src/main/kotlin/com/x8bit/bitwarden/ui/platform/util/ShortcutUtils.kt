@@ -20,6 +20,15 @@ val Intent.isPasswordGeneratorShortcut: Boolean
 val Intent.isAccountSecurityShortcut: Boolean
     get() = dataString?.equals("bitwarden://settings/account_security") == true
 
+/** Deep link used by the PC fill request notification. */
+const val PC_AUTOFILL_SHORTCUT_URI: String = "pushwarden://pc_autofill"
+
+/**
+ * Returns `true` if the [Intent] opens the PC autofill screen, `false` otherwise.
+ */
+val Intent.isPcAutofillShortcut: Boolean
+    get() = dataString?.equals(PC_AUTOFILL_SHORTCUT_URI) == true
+
 /**
  * Returns `true` if the [Intent] is a deep link callback from a Premium
  * checkout session, `false` otherwise.

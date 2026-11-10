@@ -18,6 +18,7 @@ import com.x8bit.bitwarden.data.platform.manager.policy.UserNotificationPolicyMa
 import com.x8bit.bitwarden.data.platform.repository.model.VaultTimeoutAction
 import com.x8bit.bitwarden.data.tools.generator.datasource.disk.GeneratorDiskSource
 import com.x8bit.bitwarden.data.tools.generator.datasource.disk.PasswordHistoryDiskSource
+import com.x8bit.bitwarden.data.vault.l2.L2KeyStore
 import com.x8bit.bitwarden.data.vault.datasource.disk.VaultDiskSource
 import com.x8bit.bitwarden.data.vault.datasource.sdk.VaultSdkSource
 import io.mockk.coEvery
@@ -72,6 +73,10 @@ class UserLogoutManagerTest {
         every { shouldClearOnSoftLogout(userId = any()) } returns true
     }
 
+    private val l2KeyStore: L2KeyStore = mockk {
+        every { clear(userId = any()) } just runs
+    }
+
     private val userLogoutManager: UserLogoutManager =
         UserLogoutManagerImpl(
             authDiskSource = authDiskSource,
@@ -85,6 +90,7 @@ class UserLogoutManagerTest {
             dispatcherManager = FakeDispatcherManager(),
             credentialExchangeRegistryManager = credentialExchangeRegistryManager,
             userNotificationPolicyManager = userNotificationPolicyManager,
+            l2KeyStore = l2KeyStore,
         )
 
     @Suppress("MaxLineLength")
@@ -424,6 +430,7 @@ class UserLogoutManagerTest {
         verify { generatorDiskSource.clearData(userId = userId) }
         verify { pushDiskSource.clearData(userId = userId) }
         verify { settingsDiskSource.clearData(userId = userId) }
+        verify { l2KeyStore.clear(userId = userId) }
         coVerify { passwordHistoryDiskSource.clearPasswordHistories(userId = userId) }
         coVerify {
             vaultDiskSource.deleteVaultData(userId = userId)

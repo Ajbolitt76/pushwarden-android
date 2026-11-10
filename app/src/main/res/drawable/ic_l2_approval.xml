@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Large lock for the PC fill approval screen, on the PushWarden tile colour. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="160dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <path android:pathData="M112,0 H400 A112,112 0 0,1 512,112 V400 A112,112 0 0,1 400,512 H112 A112,112 0 0,1 0,400 V112 A112,112 0 0,1 112,0 Z"
+        android:fillColor="#FF27324A" />
+    <group
+        android:translateX="-24"
+        android:translateY="12">
+        <path
+            android:pathData="M184,240 V180 a72,72 0 0,1 144,0 V240"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeLineCap="round"
+            android:strokeWidth="40" />
+        <path
+            android:pathData="M392,92 a44,44 0 0,1 44,44"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeLineCap="round"
+            android:strokeWidth="22" />
+        <path
+            android:pathData="M392,52 a84,84 0 0,1 84,84"
+            android:strokeAlpha="0.8"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeLineCap="round"
+            android:strokeWidth="22" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M168,236 H344 A40,40 0 0,1 384,276 V392 A40,40 0 0,1 344,432 H168 A40,40 0 0,1 128,392 V276 A40,40 0 0,1 168,236 Z M256,282 L304,330 H274 V386 H238 V330 H208 Z" />
+    </group>
+</vector>

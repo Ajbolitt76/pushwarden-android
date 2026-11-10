@@ -268,6 +268,8 @@ class VaultMigrationManagerImpl(
         encryptedCiphersMap: Map<String, SyncResponseJson.Cipher>,
         collectionIds: List<String>,
     ): Result<Unit> {
+        // L2: these come from getCipher (raw, L2 ciphertext intact), so this bypass of
+        // CipherManagerImpl.encryptL2Guarded is safe. Never feed it getVaultItemStateFlow views.
         return vaultSdkSource
             .bulkMoveToOrganization(
                 userId = userId,

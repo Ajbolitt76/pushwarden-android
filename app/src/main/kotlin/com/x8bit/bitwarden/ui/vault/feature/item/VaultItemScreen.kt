@@ -73,6 +73,7 @@ fun VaultItemScreen(
     onNavigateToPlan: () -> Unit,
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val level2 by viewModel.level2StatusFlow.collectAsStateWithLifecycle()
     val fileChooserLauncher = intentManager.getActivityResultLauncher { activityResult ->
         intentManager.getFileDataFromActivityResult(activityResult)
             ?.let {
@@ -282,6 +283,7 @@ fun VaultItemScreen(
     ) {
         VaultItemContent(
             viewState = state.viewState,
+            level2 = level2,
             modifier = Modifier
                 .fillMaxSize(),
             vaultCommonItemTypeHandlers = remember(viewModel) {
@@ -396,6 +398,7 @@ private fun VaultItemContent(
     vaultDriversLicenseItemTypeHandlers: VaultDriversLicenseItemTypeHandlers,
     vaultPassportItemTypeHandlers: VaultPassportItemTypeHandlers,
     modifier: Modifier = Modifier,
+    level2: Level2ViewStatus? = null,
 ) {
     when (viewState) {
         is VaultItemState.ViewState.Error -> BitwardenErrorContent(
@@ -416,6 +419,7 @@ private fun VaultItemContent(
                         vaultCommonItemTypeHandlers = vaultCommonItemTypeHandlers,
                         vaultLoginItemTypeHandlers = vaultLoginItemTypeHandlers,
                         modifier = modifier,
+                        level2 = level2,
                     )
                 }
 

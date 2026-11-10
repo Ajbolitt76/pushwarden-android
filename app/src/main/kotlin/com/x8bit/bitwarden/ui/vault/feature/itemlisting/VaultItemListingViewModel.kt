@@ -2790,7 +2790,10 @@ class VaultItemListingViewModel @Inject constructor(
     private suspend fun getCipherViewOrNull(
         cipherId: String,
     ) = when (val result = vaultRepository.getCipher(cipherId)) {
-        is GetCipherResult.Success -> result.cipherView
+        is GetCipherResult.Success -> {
+            runCatching { vaultRepository.decryptL2(result.cipherView) }
+                .getOrDefault(result.cipherView)
+        }
         is GetCipherResult.Failure -> {
             Timber.e(result.error, "Failed to decrypt cipher.")
             sendAction(
@@ -2820,7 +2823,10 @@ class VaultItemListingViewModel @Inject constructor(
                 null
             }
 
-            is GetCipherResult.Success -> result.cipherView
+            is GetCipherResult.Success -> {
+                runCatching { vaultRepository.decryptL2(result.cipherView) }
+                    .getOrDefault(result.cipherView)
+            }
         }
 
     private fun sendUserVerificationEvent(isRequired: Boolean, selectedCipher: CipherView) {

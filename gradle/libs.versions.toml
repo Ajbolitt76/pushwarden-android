@@ -7,6 +7,9 @@ appVersionName = "2026.11.0"
 
 # SDK Versions
 compileSdk = "37"
+jna = "5.17.0"
+lazysodiumAndroid = "5.2.0"
+lazysodiumJava = "5.1.4"
 targetSdk = "37"
 minSdk = "29"
 
@@ -116,6 +119,9 @@ google-play-review = { module = "com.google.android.play:review", version.ref = 
 google-protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "googleProtoBufJava" }
 # Included so that Renovate tracks updates since protoc is not referenced directly in `dependency {}` blocks.
 google-protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "googleProtoBufJava" }
+goterl-lazysodium-android = { module = "com.goterl:lazysodium-android", version.ref = "lazysodiumAndroid" }
+goterl-lazysodium-java = { module = "com.goterl:lazysodium-java", version.ref = "lazysodiumJava" }
+jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }

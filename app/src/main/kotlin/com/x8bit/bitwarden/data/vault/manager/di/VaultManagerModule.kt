@@ -27,6 +27,7 @@ import com.x8bit.bitwarden.data.platform.manager.PolicyManager
 import com.x8bit.bitwarden.data.platform.manager.PushManager
 import com.x8bit.bitwarden.data.platform.manager.ReviewPromptManager
 import com.x8bit.bitwarden.data.platform.manager.keyrotation.KeyRotationManager
+import com.x8bit.bitwarden.data.vault.l2.L2Manager
 import com.x8bit.bitwarden.data.platform.manager.network.NetworkConnectionManager
 import com.x8bit.bitwarden.data.platform.manager.policy.PasswordPolicyManager
 import com.x8bit.bitwarden.data.platform.repository.SettingsRepository
@@ -110,6 +111,7 @@ object VaultManagerModule {
         fileManager: FileManager,
         clock: Clock,
         reviewPromptManager: ReviewPromptManager,
+        l2Manager: L2Manager,
         dispatcherManager: DispatcherManager,
         pushManager: PushManager,
     ): CipherManager = CipherManagerImpl(
@@ -122,6 +124,7 @@ object VaultManagerModule {
         vaultSdkSource = vaultSdkSource,
         clock = clock,
         reviewPromptManager = reviewPromptManager,
+        l2Manager = l2Manager,
         dispatcherManager = dispatcherManager,
         pushManager = pushManager,
     )

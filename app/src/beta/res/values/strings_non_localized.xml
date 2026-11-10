@@ -1,4 +1,4 @@
 <resources>
     <!--Common-->
-    <string name="app_name" translatable="false">Bitwarden Beta</string>
+    <string name="app_name" translatable="false">PushWarden Beta</string>
 </resources>

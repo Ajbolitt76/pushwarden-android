@@ -10,6 +10,7 @@ import com.x8bit.bitwarden.data.platform.util.isActive
 import com.x8bit.bitwarden.ui.vault.feature.itemlisting.model.ListingItemOverflowAction
 import com.x8bit.bitwarden.ui.vault.model.VaultTrailingIcon
 import com.x8bit.bitwarden.ui.vault.util.toSdkCipherType
+import com.x8bit.bitwarden.data.vault.l2.L2Index
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -154,6 +155,7 @@ fun CipherListView.toLabelIcons(isVfo1FoundationEnabled: Boolean = false): Immut
                 this.collectionIds.isNotEmpty() || this.organizationId?.isNotEmpty() == true
             }
         },
+        VaultTrailingIcon.LEVEL_2.takeIf { id != null && id in L2Index.ids.value },
         VaultTrailingIcon.ATTACHMENT.takeIf { this.attachments > 0U },
     )
         .map {

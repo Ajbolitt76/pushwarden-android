@@ -12,6 +12,7 @@ import com.x8bit.bitwarden.data.vault.repository.model.DownloadAttachmentResult
 import com.x8bit.bitwarden.data.vault.repository.model.RestoreCipherResult
 import com.x8bit.bitwarden.data.vault.repository.model.ShareCipherResult
 import com.x8bit.bitwarden.data.vault.repository.model.UnarchiveCipherResult
+import com.x8bit.bitwarden.data.vault.l2.L2ItemStatus
 import com.x8bit.bitwarden.data.vault.repository.model.UpdateCipherResult
 
 /**
@@ -116,6 +117,34 @@ interface CipherManager {
         cipherView: CipherView,
         collectionIds: List<String>,
     ): ShareCipherResult
+
+    /**
+     * Moves a login to L2: password and TOTP are encrypted with the L2 key and plaintext
+     * password history is removed (DESIGN.md, flow 2).
+     */
+    suspend fun moveCipherToL2(cipherId: String): UpdateCipherResult
+
+    /** Moves a login back to L1: password and TOTP are stored decrypted again. */
+    suspend fun moveCipherToL1(cipherId: String): UpdateCipherResult
+
+    /**
+     * The level 2 state of [cipherId] as stored: `null` for a level 1 item. Item screens use it
+     * because they only ever see decrypted copies.
+     */
+    suspend fun getL2Status(cipherId: String): L2ItemStatus?
+
+    /**
+     * [cipher] with its level 2 fields decrypted for showing or editing on this phone, or
+     * unchanged if it isn't level 2 or the L2 key isn't here. Saves re-seal them.
+     */
+    fun decryptL2(cipher: CipherView): CipherView
+
+    /**
+     * Creates a login directly at level 2. It is first saved without password and TOTP, so the
+     * server assigns the id the L2 values are bound to and no plaintext version ever exists
+     * for a computer to sync; then the sealed values are saved.
+     */
+    suspend fun createCipherAtL2(cipherView: CipherView): CreateCipherResult
 
     /**
      * Attempt to update a cipher.

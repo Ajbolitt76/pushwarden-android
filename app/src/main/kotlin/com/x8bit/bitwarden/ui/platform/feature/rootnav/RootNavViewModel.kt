@@ -208,6 +208,7 @@ class RootNavViewModel @Inject constructor(
                     }
 
                     SpecialCircumstance.AccountSecurityShortcut,
+                    SpecialCircumstance.PcAutofillShortcut,
                     SpecialCircumstance.GeneratorShortcut,
                     is SpecialCircumstance.PremiumCheckout,
                     SpecialCircumstance.StripePortal,
@@ -285,6 +286,7 @@ class RootNavViewModel @Inject constructor(
     private fun shouldShowVaultMigration(specialCircumstance: SpecialCircumstance?): Boolean =
         when (specialCircumstance) {
             is SpecialCircumstance.AccountSecurityShortcut,
+            is SpecialCircumstance.PcAutofillShortcut,
             is SpecialCircumstance.GeneratorShortcut,
             is SpecialCircumstance.PremiumCheckout,
             is SpecialCircumstance.StripePortal,

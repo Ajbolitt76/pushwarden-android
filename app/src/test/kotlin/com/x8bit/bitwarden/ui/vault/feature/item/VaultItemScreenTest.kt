@@ -85,6 +85,7 @@ class VaultItemScreenTest : BitwardenComposeTest() {
     private val viewModel = mockk<VaultItemViewModel>(relaxed = true) {
         every { eventFlow } returns mutableEventFlow
         every { stateFlow } returns mutableStateFlow
+        every { level2StatusFlow } returns kotlinx.coroutines.flow.MutableStateFlow(null)
     }
 
     @Before

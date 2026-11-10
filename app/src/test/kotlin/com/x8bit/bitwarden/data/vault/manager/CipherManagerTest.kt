@@ -49,6 +49,8 @@ import com.x8bit.bitwarden.data.vault.datasource.sdk.model.createMockCipherView
 import com.x8bit.bitwarden.data.vault.datasource.sdk.model.createMockEncryptionContext
 import com.x8bit.bitwarden.data.vault.datasource.sdk.model.createMockSdkAttachment
 import com.x8bit.bitwarden.data.vault.datasource.sdk.model.createMockSdkCipher
+import com.x8bit.bitwarden.data.vault.l2.L2Manager
+import com.x8bit.bitwarden.data.vault.l2.L2NotSetUpException
 import com.x8bit.bitwarden.data.vault.manager.model.GetCipherResult
 import com.x8bit.bitwarden.data.vault.repository.model.ArchiveCipherResult
 import com.x8bit.bitwarden.data.vault.repository.model.CreateAttachmentResult
@@ -66,6 +68,7 @@ import com.x8bit.bitwarden.data.vault.repository.util.toEncryptedSdkCipher
 import com.x8bit.bitwarden.data.vault.repository.util.toNetworkAttachmentRequest
 import io.mockk.Ordering
 import io.mockk.coEvery
+import io.mockk.slot
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.just
@@ -80,6 +83,7 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -103,7 +107,13 @@ class CipherManagerTest {
     private val fakeAuthDiskSource = FakeAuthDiskSource()
     private val fakeSettingsDiskSource = FakeSettingsDiskSource()
     private val ciphersService: CiphersService = mockk()
-    private val vaultDiskSource: VaultDiskSource = mockk()
+    private val vaultDiskSource: VaultDiskSource = mockk {
+        // The L2 write guard looks up the stored cipher; most tests have none.
+        coEvery { getCipher(any(), any()) } returns null
+    }
+    private val l2Manager: L2Manager = mockk {
+        every { protect(any(), any()) } answers { Result.success(secondArg()) }
+    }
     private val vaultSdkSource: VaultSdkSource = mockk()
     private val reviewPromptManager: ReviewPromptManager = mockk {
         every { registerAddCipherAction() } just runs
@@ -126,6 +136,7 @@ class CipherManagerTest {
         fileManager = fileManager,
         clock = clock,
         reviewPromptManager = reviewPromptManager,
+        l2Manager = l2Manager,
         pushManager = pushManager,
         dispatcherManager = FakeDispatcherManager(),
     )
@@ -510,6 +521,63 @@ class CipherManagerTest {
             )
 
             assertEquals(UpdateCipherResult.Error(errorMessage = null, error = error), result)
+        }
+
+    @Test
+    fun `createCipherAtL2 refuses before saving anything when L2 isn't set up`() = runTest {
+        fakeAuthDiskSource.userState = MOCK_USER_STATE
+        every { l2Manager.isSetUp } returns false
+
+        val result = cipherManager.createCipherAtL2(createMockCipherView(number = 1))
+
+        assertTrue((result as CreateCipherResult.Error).error is L2NotSetUpException)
+        coVerify(exactly = 0) { vaultSdkSource.encryptCipher(any(), any()) }
+    }
+
+    @Test
+    fun `createCipherAtL2 first saves the item without password, TOTP or history`() = runTest {
+        fakeAuthDiskSource.userState = MOCK_USER_STATE
+        every { l2Manager.isSetUp } returns true
+        val firstSave = slot<CipherView>()
+        coEvery {
+            vaultSdkSource.encryptCipher(userId = "mockId-1", cipherView = capture(firstSave))
+        } returns IllegalStateException("stop after the first save").asFailure()
+
+        val result = cipherManager.createCipherAtL2(createMockCipherView(number = 1))
+
+        // No plaintext version may ever reach the server for a computer to sync.
+        assertNull(firstSave.captured.login!!.password)
+        assertNull(firstSave.captured.login!!.totp)
+        assertNull(firstSave.captured.passwordHistory)
+        assertEquals("mockUsername-1", firstSave.captured.login!!.username)
+        assertTrue(result is CreateCipherResult.Error)
+    }
+
+    @Test
+    fun `updateCipher passes the stored cipher to the L2 guard and stops when it refuses`() =
+        runTest {
+            mockkStatic(SyncResponseJson.Cipher::toEncryptedSdkCipher)
+            fakeAuthDiskSource.userState = MOCK_USER_STATE
+            val updated = createMockCipherView(number = 1)
+            val sdkCipher = mockk<Cipher>()
+            val storedJson = mockk<SyncResponseJson.Cipher> {
+                every { toEncryptedSdkCipher() } returns sdkCipher
+            }
+            val stored = mockk<CipherView>()
+            val error = L2NotSetUpException()
+            coEvery {
+                vaultDiskSource.getCipher(userId = "mockId-1", cipherId = updated.id!!)
+            } returns storedJson
+            coEvery {
+                vaultSdkSource.decryptCipher(userId = "mockId-1", cipher = sdkCipher)
+            } returns stored.asSuccess()
+            every { l2Manager.protect(stored, updated) } returns Result.failure(error)
+
+            val result = cipherManager.updateCipher(cipherId = updated.id!!, cipherView = updated)
+
+            assertEquals(UpdateCipherResult.Error(errorMessage = null, error = error), result)
+            coVerify(exactly = 0) { vaultSdkSource.encryptCipher(any(), any()) }
+            coVerify(exactly = 0) { ciphersService.updateCipher(any(), any()) }
         }
 
     @Test

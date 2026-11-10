@@ -24,7 +24,7 @@
                                 android:color="#00A2F4FD"
                                 android:offset="0.45" />
                             <item
-                                android:color="#19175DDC"
+                                android:color="#193A4D75"
                                 android:offset="0.8" />
                         </gradient>
                     </aapt:attr>
@@ -92,7 +92,7 @@
                                 android:color="#00A2F4FD"
                                 android:offset="0.07" />
                             <item
-                                android:color="#1C175DDC"
+                                android:color="#1C3A4D75"
                                 android:offset="0.6" />
                         </gradient>
                     </aapt:attr>
@@ -133,7 +133,7 @@
                                 android:startY="-16.35"
                                 android:type="linear">
                                 <item
-                                    android:color="#BF175DDC"
+                                    android:color="#BF3A4D75"
                                     android:offset="0" />
                                 <item
                                     android:color="#00FFFFFF"
@@ -157,7 +157,7 @@
                                 android:color="#00A2F4FD"
                                 android:offset="0.07" />
                             <item
-                                android:color="#1C175DDC"
+                                android:color="#1C3A4D75"
                                 android:offset="0.6" />
                         </gradient>
                     </aapt:attr>
@@ -198,7 +198,7 @@
                                 android:startY="-311"
                                 android:type="linear">
                                 <item
-                                    android:color="#7F175DDC"
+                                    android:color="#7F3A4D75"
                                     android:offset="0" />
                                 <item
                                     android:color="#FFFFFFFF"

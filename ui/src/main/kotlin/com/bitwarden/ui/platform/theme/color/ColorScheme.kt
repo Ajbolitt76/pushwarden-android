@@ -317,6 +317,7 @@ internal fun BitwardenColorScheme.toMaterialColorScheme(
 /**
  * The raw colors that support the [BitwardenColorScheme].
  */
+// PushWarden: the "blue" scale holds the logo's slate (#27324A, #D9E1EE); names kept from upstream.
 private data object PrimitiveColors {
     val gray100: Color = Color(color = 0xFFFFFFFF)
     val gray200: Color = Color(color = 0xFFF3F6F9)
@@ -333,15 +334,15 @@ private data object PrimitiveColors {
     val gray1300: Color = Color(color = 0xFF1B2029)
     val gray1400: Color = Color(color = 0xFF000000)
 
-    val blue050: Color = Color(color = 0xFFEEF6FF)
-    val blue100: Color = Color(color = 0xFFDBE5F6)
-    val blue150: Color = Color(color = 0xFFBEDBFF)
-    val blue200: Color = Color(color = 0xFFAAC3EF)
-    val blue300: Color = Color(color = 0xFF79A1E9)
-    val blue400: Color = Color(color = 0xFF65ABFF)
-    val blue500: Color = Color(color = 0xFF175DDC)
-    val blue600: Color = Color(color = 0xFF1A41AC)
-    val blue700: Color = Color(color = 0xFF020F66)
+    val blue050: Color = Color(color = 0xFFF1F4F9)
+    val blue100: Color = Color(color = 0xFFE2E8F1)
+    val blue150: Color = Color(color = 0xFFD9E1EE)
+    val blue200: Color = Color(color = 0xFFB8C5DB)
+    val blue300: Color = Color(color = 0xFF8A9CBC)
+    val blue400: Color = Color(color = 0xFFA9B8D6)
+    val blue500: Color = Color(color = 0xFF3A4D75)
+    val blue600: Color = Color(color = 0xFF27324A)
+    val blue700: Color = Color(color = 0xFF151C2B)
 
     val teal400: Color = Color(color = 0xFF2CDDE9)
 

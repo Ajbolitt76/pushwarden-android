@@ -14,6 +14,7 @@ import com.x8bit.bitwarden.data.platform.manager.CredentialExchangeRegistryManag
 import com.x8bit.bitwarden.data.platform.manager.policy.UserNotificationPolicyManager
 import com.x8bit.bitwarden.data.tools.generator.datasource.disk.GeneratorDiskSource
 import com.x8bit.bitwarden.data.tools.generator.datasource.disk.PasswordHistoryDiskSource
+import com.x8bit.bitwarden.data.vault.l2.L2KeyStore
 import com.x8bit.bitwarden.data.vault.datasource.disk.VaultDiskSource
 import com.x8bit.bitwarden.data.vault.datasource.sdk.VaultSdkSource
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +39,7 @@ internal class UserLogoutManagerImpl(
     private val vaultSdkSource: VaultSdkSource,
     private val credentialExchangeRegistryManager: CredentialExchangeRegistryManager,
     private val userNotificationPolicyManager: UserNotificationPolicyManager,
+    private val l2KeyStore: L2KeyStore,
     dispatcherManager: DispatcherManager,
 ) : UserLogoutManager {
     private val unconfinedScope = CoroutineScope(dispatcherManager.unconfined)
@@ -134,6 +136,7 @@ internal class UserLogoutManagerImpl(
         generatorDiskSource.clearData(userId = userId)
         pushDiskSource.clearData(userId = userId)
         settingsDiskSource.clearData(userId = userId)
+        l2KeyStore.clear(userId = userId)
         unconfinedScope.launch {
             passwordHistoryDiskSource.clearPasswordHistories(userId = userId)
             vaultDiskSource.deleteVaultData(userId = userId)

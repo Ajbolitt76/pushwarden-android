@@ -35,6 +35,7 @@ import com.x8bit.bitwarden.data.platform.manager.ciphermatching.CipherMatchingMa
 import com.x8bit.bitwarden.data.platform.manager.clipboard.BitwardenClipboardManager
 import com.x8bit.bitwarden.data.platform.manager.event.OrganizationEventManager
 import com.x8bit.bitwarden.data.platform.repository.SettingsRepository
+import com.x8bit.bitwarden.data.vault.l2.L2Manager
 import com.x8bit.bitwarden.data.vault.repository.VaultRepository
 import dagger.Module
 import dagger.Provides
@@ -135,12 +136,14 @@ object AutofillModule {
         cipherMatchingManager: CipherMatchingManager,
         vaultRepository: VaultRepository,
         policyManager: PolicyManager,
+        l2Manager: L2Manager,
     ): AutofillCipherProvider =
         AutofillCipherProviderImpl(
             authRepository = authRepository,
             cipherMatchingManager = cipherMatchingManager,
             vaultRepository = vaultRepository,
             policyManager = policyManager,
+            l2Manager = l2Manager,
         )
 
     @Singleton

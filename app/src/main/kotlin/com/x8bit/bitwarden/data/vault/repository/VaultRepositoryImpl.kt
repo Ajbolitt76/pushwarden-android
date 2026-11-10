@@ -28,6 +28,7 @@ import com.x8bit.bitwarden.data.platform.manager.keyrotation.KeyRotationManager
 import com.x8bit.bitwarden.data.platform.util.isActive
 import com.x8bit.bitwarden.data.vault.datasource.disk.VaultDiskSource
 import com.x8bit.bitwarden.data.vault.datasource.sdk.VaultSdkSource
+import com.x8bit.bitwarden.data.vault.l2.L2Manager
 import com.x8bit.bitwarden.data.vault.manager.CipherManager
 import com.x8bit.bitwarden.data.vault.manager.CredentialExchangeImportManager
 import com.x8bit.bitwarden.data.vault.manager.FolderManager
@@ -88,6 +89,7 @@ internal class VaultRepositoryImpl(
     private val pinProtectedUserKeyManager: PinProtectedUserKeyManager,
     private val keyRotationManager: KeyRotationManager,
     private val featureFlagManager: FeatureFlagManager,
+    private val l2Manager: L2Manager,
     dispatcherManager: DispatcherManager,
 ) : VaultRepository,
     CipherManager by cipherManager,
@@ -126,7 +128,8 @@ internal class VaultRepositoryImpl(
                         .find { it.id == itemId }
                         .let { getCipher(itemId) }
                     when (getCipherResult) {
-                        is GetCipherResult.Success -> getCipherResult.cipherView
+                        // Item screens show L2 fields decrypted; saves re-encrypt them.
+                        is GetCipherResult.Success -> l2Manager.decrypt(getCipherResult.cipherView)
                         else -> null
                     }
                 }

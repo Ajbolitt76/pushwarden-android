@@ -120,9 +120,9 @@ data class WelcomeState(
          */
         @Parcelize
         data object CardOne : WelcomeCard() {
-            override val imageRes: Int get() = BitwardenDrawable.ill_items
-            override val titleRes: Int get() = BitwardenString.security_prioritized
-            override val messageRes: Int get() = BitwardenString.welcome_message_1
+            override val imageRes: Int get() = BitwardenDrawable.logo_bitwarden_icon
+            override val titleRes: Int get() = BitwardenString.welcome_to_pushwarden
+            override val messageRes: Int get() = BitwardenString.pushwarden_is_an_independent_fork_of_bitwarden
         }
 
         /**
@@ -130,9 +130,9 @@ data class WelcomeState(
          */
         @Parcelize
         data object CardTwo : WelcomeCard() {
-            override val imageRes: Int get() = BitwardenDrawable.ill_biometrics_phone
-            override val titleRes: Int get() = BitwardenString.quick_and_easy_login
-            override val messageRes: Int get() = BitwardenString.welcome_message_2
+            override val imageRes: Int get() = BitwardenDrawable.ill_lock
+            override val titleRes: Int get() = BitwardenString.level_2_badge
+            override val messageRes: Int get() = BitwardenString.mark_your_most_important_logins_as_protected
         }
 
         /**
@@ -140,9 +140,9 @@ data class WelcomeState(
          */
         @Parcelize
         data object CardThree : WelcomeCard() {
-            override val imageRes: Int get() = BitwardenDrawable.ill_generate
-            override val titleRes: Int get() = BitwardenString.level_up_your_logins
-            override val messageRes: Int get() = BitwardenString.welcome_message_3
+            override val imageRes: Int get() = BitwardenDrawable.ill_items
+            override val titleRes: Int get() = BitwardenString.set_it_up_on_this_phone
+            override val messageRes: Int get() = BitwardenString.after_you_log_in_open_settings_protected_items
         }
 
         /**
@@ -151,8 +151,8 @@ data class WelcomeState(
         @Parcelize
         data object CardFour : WelcomeCard() {
             override val imageRes: Int get() = BitwardenDrawable.ill_secure_devices
-            override val titleRes: Int get() = BitwardenString.your_data_when_and_where_you_need_it
-            override val messageRes: Int get() = BitwardenString.welcome_message_4
+            override val titleRes: Int get() = BitwardenString.connect_your_computer
+            override val messageRes: Int get() = BitwardenString.install_the_pushwarden_browser_extension_and_pair
         }
     }
 }

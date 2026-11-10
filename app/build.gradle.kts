@@ -60,7 +60,7 @@ configure<ApplicationExtension> {
     }
 
     defaultConfig {
-        applicationId = "com.x8bit.bitwarden"
+        applicationId = "com.corex.pushwarden"
         minSdk {
             version = release(libs.versions.minSdk.get().toInt())
         }
@@ -276,8 +276,13 @@ dependencies {
     implementation(libs.bitwarden.sdk)
     implementation(libs.coil.coil)
     implementation(libs.coil.coil.network.okhttp)
+    implementation(libs.goterl.lazysodium.android) {
+        // The jar flavour of JNA ships desktop natives; Android needs the AAR below.
+        exclude(group = "net.java.dev.jna", module = "jna")
+    }
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
+    implementation(libs.jna) { artifact { type = "aar" } }
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization)
@@ -304,6 +309,8 @@ dependencies {
     testImplementation(testFixtures(project(":ui")))
 
     testImplementation(libs.androidx.compose.ui.test)
+    // Same libsodium API as lazysodium-android, with desktop natives for JVM unit tests.
+    testImplementation(libs.goterl.lazysodium.java)
     testImplementation(libs.google.hilt.android.testing)
     testImplementation(platform(libs.junit.bom))
     testRuntimeOnly(libs.junit.platform.launcher)

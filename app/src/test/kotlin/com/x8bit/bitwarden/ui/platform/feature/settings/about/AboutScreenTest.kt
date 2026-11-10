@@ -286,10 +286,10 @@ class AboutScreenTest : BitwardenComposeTest() {
         val currentYear = Year.now(fixedClock).value
 
         mutableStateFlow.update {
-            it.copy(copyrightInfo = "© Bitwarden Inc. 2015-$currentYear".asText())
+            it.copy(copyrightInfo = "$COPYRIGHT_PREFIX$currentYear".asText())
         }
 
-        composeTestRule.onNodeWithText("© Bitwarden Inc. 2015-$currentYear")
+        composeTestRule.onNodeWithText("$COPYRIGHT_PREFIX$currentYear")
             .performScrollTo()
             .assertIsDisplayed()
     }
@@ -334,3 +334,5 @@ private val DEFAULT_STATE = AboutState(
     flightRecorderSubtext = null,
     copyrightInfo = "".asText(),
 )
+
+private const val COPYRIGHT_PREFIX = "PushWarden, based on Bitwarden © Bitwarden Inc. 2015-"

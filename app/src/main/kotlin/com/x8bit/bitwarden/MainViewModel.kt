@@ -47,6 +47,7 @@ import com.x8bit.bitwarden.data.vault.repository.VaultRepository
 import com.x8bit.bitwarden.ui.platform.feature.rootnav.RootNavViewModel
 import com.x8bit.bitwarden.ui.platform.model.FeatureFlagsState
 import com.x8bit.bitwarden.ui.platform.util.isAccountSecurityShortcut
+import com.x8bit.bitwarden.ui.platform.util.isPcAutofillShortcut
 import com.x8bit.bitwarden.ui.platform.util.isMyVaultShortcut
 import com.x8bit.bitwarden.ui.platform.util.isPasswordGeneratorShortcut
 import com.x8bit.bitwarden.ui.platform.util.isPremiumCheckoutCallback
@@ -356,6 +357,7 @@ class MainViewModel @Inject constructor(
         val hasGeneratorShortcut = intent.isPasswordGeneratorShortcut
         val hasVaultShortcut = intent.isMyVaultShortcut
         val hasAccountSecurityShortcut = intent.isAccountSecurityShortcut
+        val hasPcAutofillShortcut = intent.isPcAutofillShortcut
         val hasPremiumCheckoutCallback = intent.isPremiumCheckoutCallback
         val completeRegistrationData = intent.getCompleteRegistrationDataIntentOrNull()
         val importCredentialsRequest = intent.getProviderImportCredentialsRequest()
@@ -437,6 +439,11 @@ class MainViewModel @Inject constructor(
             hasAccountSecurityShortcut -> {
                 specialCircumstanceManager.specialCircumstance =
                     SpecialCircumstance.AccountSecurityShortcut
+            }
+
+            hasPcAutofillShortcut -> {
+                specialCircumstanceManager.specialCircumstance =
+                    SpecialCircumstance.PcAutofillShortcut
             }
 
             importCredentialsRequest != null -> {

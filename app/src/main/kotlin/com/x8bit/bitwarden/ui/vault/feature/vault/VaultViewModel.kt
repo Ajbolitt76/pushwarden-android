@@ -1866,7 +1866,10 @@ class VaultViewModel @Inject constructor(
                 null
             }
 
-            is GetCipherResult.Success -> result.cipherView
+            is GetCipherResult.Success -> {
+                runCatching { vaultRepository.decryptL2(result.cipherView) }
+                    .getOrDefault(result.cipherView)
+            }
         }
 
     private fun handleKdfUpdatePasswordRepromptSubmit(

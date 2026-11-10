@@ -118,6 +118,12 @@ sealed class SpecialCircumstance : Parcelable {
     data object AccountSecurityShortcut : SpecialCircumstance()
 
     /**
+     * The app was opened from a "PC fill request" notification: show the PC autofill screen.
+     */
+    @Parcelize
+    data object PcAutofillShortcut : SpecialCircumstance()
+
+    /**
      * Deeplink to the Send.
      */
     @Parcelize

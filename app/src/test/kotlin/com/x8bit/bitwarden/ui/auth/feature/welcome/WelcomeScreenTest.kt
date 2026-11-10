@@ -39,22 +39,22 @@ class WelcomeScreenTest : BitwardenComposeTest() {
     @Test
     fun `pages should display and update according to state`() {
         composeTestRule
-            .onNodeWithText("Security, prioritized")
+            .onNodeWithText("Welcome to PushWarden")
             .assertExists()
             .assertIsDisplayed()
 
         mutableEventFlow.tryEmit(WelcomeEvent.UpdatePager(index = 1))
         composeTestRule
-            .onNodeWithText("Security, prioritized")
+            .onNodeWithText("Welcome to PushWarden")
             .assertDoesNotExist()
         composeTestRule
-            .onNodeWithText("Quick and easy login")
+            .onNodeWithText("Protected")
             .assertExists()
             .assertIsDisplayed()
 
         mutableStateFlow.update { it.copy(pages = listOf(WelcomeState.WelcomeCard.CardThree)) }
         composeTestRule
-            .onNodeWithText("Level up your logins")
+            .onNodeWithText("Set it up on this phone")
             .assertExists()
             .assertIsDisplayed()
     }
@@ -63,22 +63,22 @@ class WelcomeScreenTest : BitwardenComposeTest() {
     @Test
     fun `pages should display and update according to state in landscape mode`() {
         composeTestRule
-            .onNodeWithText("Security, prioritized")
+            .onNodeWithText("Welcome to PushWarden")
             .assertExists()
             .assertIsDisplayed()
 
         mutableEventFlow.tryEmit(WelcomeEvent.UpdatePager(index = 1))
         composeTestRule
-            .onNodeWithText("Security, prioritized")
+            .onNodeWithText("Welcome to PushWarden")
             .assertDoesNotExist()
         composeTestRule
-            .onNodeWithText("Quick and easy login")
+            .onNodeWithText("Protected")
             .assertExists()
             .assertIsDisplayed()
 
         mutableStateFlow.update { it.copy(pages = listOf(WelcomeState.WelcomeCard.CardThree)) }
         composeTestRule
-            .onNodeWithText("Level up your logins")
+            .onNodeWithText("Set it up on this phone")
             .assertExists()
             .assertIsDisplayed()
     }

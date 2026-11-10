@@ -1152,7 +1152,10 @@ class SearchViewModel @Inject constructor(
                 null
             }
 
-            is GetCipherResult.Success -> result.cipherView
+            is GetCipherResult.Success -> {
+                runCatching { vaultRepo.decryptL2(result.cipherView) }
+                    .getOrDefault(result.cipherView)
+            }
         }
 }
 

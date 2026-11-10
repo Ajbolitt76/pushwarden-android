@@ -30,6 +30,9 @@ import com.x8bit.bitwarden.data.platform.manager.model.SyncCipherDeleteData
 import com.x8bit.bitwarden.data.platform.manager.model.SyncCipherUpsertData
 import com.x8bit.bitwarden.data.vault.datasource.disk.VaultDiskSource
 import com.x8bit.bitwarden.data.vault.datasource.sdk.VaultSdkSource
+import com.x8bit.bitwarden.data.vault.l2.L2ItemStatus
+import com.x8bit.bitwarden.data.vault.l2.L2Manager
+import com.x8bit.bitwarden.data.vault.l2.L2NotSetUpException
 import com.x8bit.bitwarden.data.vault.manager.model.GetCipherResult
 import com.x8bit.bitwarden.data.vault.repository.model.ArchiveCipherResult
 import com.x8bit.bitwarden.data.vault.repository.model.CreateAttachmentResult
@@ -66,6 +69,7 @@ class CipherManagerImpl(
     private val vaultSdkSource: VaultSdkSource,
     private val clock: Clock,
     private val reviewPromptManager: ReviewPromptManager,
+    private val l2Manager: L2Manager,
     dispatcherManager: DispatcherManager,
     pushManager: PushManager,
 ) : CipherManager {
@@ -87,8 +91,7 @@ class CipherManagerImpl(
     override suspend fun createCipher(cipherView: CipherView): CreateCipherResult {
         val userId = activeUserId
             ?: return CreateCipherResult.Error(error = NoActiveUserException())
-        return vaultSdkSource
-            .encryptCipher(
+        return encryptL2Guarded(
                 userId = userId,
                 cipherView = cipherView,
             )
@@ -123,8 +126,7 @@ class CipherManagerImpl(
     ): CreateCipherResult {
         val userId = activeUserId
             ?: return CreateCipherResult.Error(error = NoActiveUserException())
-        return vaultSdkSource
-            .encryptCipher(
+        return encryptL2Guarded(
                 userId = userId,
                 cipherView = cipherView,
             )
@@ -265,7 +267,7 @@ class CipherManagerImpl(
                     }
             }
             .flatMap {
-                vaultSdkSource.encryptCipher(
+                encryptL2Guarded(
                     userId = userId,
                     cipherView = it.copy(deletedDate = clock.instant()),
                 )
@@ -369,8 +371,7 @@ class CipherManagerImpl(
     ): UpdateCipherResult {
         val userId = activeUserId
             ?: return UpdateCipherResult.Error(error = NoActiveUserException())
-        return vaultSdkSource
-            .encryptCipher(
+        return encryptL2Guarded(
                 userId = userId,
                 cipherView = cipherView,
             )
@@ -419,7 +420,7 @@ class CipherManagerImpl(
                     cipherView = it,
                 )
             }
-            .flatMap { vaultSdkSource.encryptCipher(userId = userId, cipherView = it) }
+            .flatMap { encryptL2Guarded(userId = userId, cipherView = it) }
             .flatMap {
                 ciphersService.shareCipher(
                     cipherId = cipherId,
@@ -645,14 +646,93 @@ class CipherManagerImpl(
     }
 
     /**
+     * Every encryption in this class goes through here, so plaintext never replaces an L2 value
+     * (DESIGN.md): [L2Manager.protect] compares against the cipher as stored on disk.
+     */
+    private suspend fun encryptL2Guarded(
+        userId: String,
+        cipherView: CipherView,
+    ): Result<EncryptionContext> =
+        getStoredCipherView(userId = userId, cipherId = cipherView.id)
+            .flatMap { stored -> l2Manager.protect(stored = stored, updated = cipherView) }
+            .flatMap { vaultSdkSource.encryptCipher(userId = userId, cipherView = it) }
+
+    /** The cipher as saved, L2 ciphertext intact; `null` if it isn't saved yet. */
+    private suspend fun getStoredCipherView(
+        userId: String,
+        cipherId: String?,
+    ): Result<CipherView?> {
+        val stored = cipherId?.let { vaultDiskSource.getCipher(userId = userId, cipherId = it) }
+            ?: return null.asSuccess()
+        // A stored cipher that can't be decrypted fails the write instead of skipping the guard.
+        return vaultSdkSource.decryptCipher(userId = userId, cipher = stored.toEncryptedSdkCipher())
+    }
+
+    override suspend fun moveCipherToL2(cipherId: String): UpdateCipherResult =
+        moveCipherLevel(cipherId = cipherId, transform = l2Manager::toL2)
+
+    override suspend fun moveCipherToL1(cipherId: String): UpdateCipherResult =
+        moveCipherLevel(cipherId = cipherId, transform = l2Manager::toL1)
+
+    override suspend fun createCipherAtL2(cipherView: CipherView): CreateCipherResult {
+        val userId = activeUserId
+            ?: return CreateCipherResult.Error(error = NoActiveUserException())
+        val login = cipherView.login ?: return createCipher(cipherView)
+        // Fail before creating anything if the secrets couldn't be sealed afterwards.
+        if (!l2Manager.isSetUp) return CreateCipherResult.Error(error = L2NotSetUpException())
+        val created = createCipher(
+            cipherView.copy(
+                login = login.copy(password = null, totp = null),
+                passwordHistory = null,
+            ),
+        )
+        if (created !is CreateCipherResult.Success) return created
+        val sealed = getStoredCipherView(userId = userId, cipherId = created.cipherId)
+            .flatMap { stored ->
+                val withSecrets = checkNotNull(stored).let {
+                    it.copy(login = it.login?.copy(password = login.password, totp = login.totp))
+                }
+                l2Manager.toL2(withSecrets)
+            }
+            .getOrElse { return CreateCipherResult.Error(error = it) }
+        return when (val result = updateCipher(cipherId = created.cipherId, cipherView = sealed)) {
+            UpdateCipherResult.Success -> created
+            is UpdateCipherResult.Error -> CreateCipherResult.Error(
+                error = result.error,
+                errorMessage = result.errorMessage,
+            )
+        }
+    }
+
+    override fun decryptL2(cipher: CipherView): CipherView = l2Manager.decrypt(cipher)
+
+    override suspend fun getL2Status(cipherId: String): L2ItemStatus? {
+        val userId = activeUserId ?: return null
+        val stored = getStoredCipherView(userId = userId, cipherId = cipherId).getOrNull()
+        return stored?.let(l2Manager::status)
+    }
+
+    private suspend fun moveCipherLevel(
+        cipherId: String,
+        transform: (CipherView) -> Result<CipherView>,
+    ): UpdateCipherResult {
+        val userId = activeUserId
+            ?: return UpdateCipherResult.Error(error = NoActiveUserException())
+        val moved = getStoredCipherView(userId = userId, cipherId = cipherId)
+            .flatMap { it?.asSuccess() ?: IllegalStateException("cipher not found").asFailure() }
+            .flatMap(transform)
+            .getOrElse { return UpdateCipherResult.Error(error = it) }
+        return updateCipher(cipherId = cipherId, cipherView = moved)
+    }
+
+    /**
      * A helper method to check if the [CipherView] needs to be migrated when you encrypt it.
      */
     private suspend fun CipherView.encryptCipherAndCheckForMigration(
         userId: String,
         cipherId: String,
     ): Result<EncryptionContext> =
-        vaultSdkSource
-            .encryptCipher(userId = userId, cipherView = this)
+        encryptL2Guarded(userId = userId, cipherView = this)
             .flatMap { encryptionContext ->
                 // We only migrate the cipher if the original cipher did not have a key and the
                 // new cipher does. This means the SDK created the key and migration is required.

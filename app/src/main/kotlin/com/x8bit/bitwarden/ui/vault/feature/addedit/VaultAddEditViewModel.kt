@@ -99,6 +99,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -316,6 +319,55 @@ class VaultAddEditViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    private val mutableLevel2 = MutableStateFlow<Level2EditState?>(null)
+
+    /** The level 2 section; `null` until loaded. Kept apart from [state] (fork-local). */
+    val level2StateFlow: StateFlow<Level2EditState?> = mutableLevel2.asStateFlow()
+
+    init {
+        when (val type = state.vaultAddEditType) {
+            is VaultAddEditType.EditItem -> viewModelScope.launch {
+                // The item screens only see decrypted copies, so ask for the stored level.
+                val status = runCatching { vaultRepository.getL2Status(type.vaultItemId) }
+                    .getOrNull()
+                mutableLevel2.value = Level2EditState(
+                    original = status != null,
+                    enabled = status != null,
+                    sealedHosts = status?.hosts,
+                )
+            }
+
+            is VaultAddEditType.CloneItem -> viewModelScope.launch {
+                // A clone of a level 2 item starts at level 2 too, or its password would leak.
+                val status = runCatching { vaultRepository.getL2Status(type.vaultItemId) }
+                    .getOrNull()
+                mutableLevel2.value = Level2EditState(original = false, enabled = status != null)
+            }
+
+            is VaultAddEditType.AddItem -> {
+                mutableLevel2.value = Level2EditState(original = false, enabled = false)
+            }
+        }
+    }
+
+    /** The user changed the level 2 section. */
+    fun onLevel2Change(level2: Level2EditState) {
+        mutableLevel2.value = level2
+    }
+
+    /** Applies the selected level after the item was saved; `null` if nothing to do. */
+    private suspend fun applyLevel2(cipherId: String): UpdateCipherResult? {
+        val level2 = mutableLevel2.value ?: return null
+        return when {
+            level2.enabled && (!level2.original || level2.allowNewHosts) -> {
+                vaultRepository.moveCipherToL2(cipherId)
+            }
+
+            !level2.enabled && level2.original -> vaultRepository.moveCipherToL1(cipherId)
+            else -> null
+        }
+    }
+
     override fun handleAction(action: VaultAddEditAction) {
         when (action) {
             is VaultAddEditAction.Common -> handleCommonActions(action)
@@ -496,13 +548,16 @@ class VaultAddEditViewModel @Inject constructor(
                 }
 
                 is VaultAddEditType.EditItem -> {
-                    val result = vaultRepository.updateCipher(
+                    var result = vaultRepository.updateCipher(
                         cipherId = vaultAddEditType.vaultItemId,
                         cipherView = content.toCipherView(
                             clock = clock,
                             isPremiumUser = state.hasPremium,
                         ),
                     )
+                    if (result is UpdateCipherResult.Success) {
+                        result = applyLevel2(vaultAddEditType.vaultItemId) ?: result
+                    }
                     sendAction(VaultAddEditAction.Internal.UpdateCipherResultReceive(result))
                 }
 
@@ -2009,9 +2064,10 @@ class VaultAddEditViewModel @Inject constructor(
                 showDialog(
                     dialogState = VaultAddEditState.DialogState.Generic(
                         title = BitwardenString.an_error_has_occurred.asText(),
-                        message = result
-                            .errorMessage
-                            ?.asText()
+                        message = result.error.level2MessageOrNull()
+                            ?: result
+                                .errorMessage
+                                ?.asText()
                             ?: BitwardenString.generic_error_message.asText(),
                         error = result.error,
                     ),
@@ -2061,9 +2117,10 @@ class VaultAddEditViewModel @Inject constructor(
                 showDialog(
                     dialogState = VaultAddEditState.DialogState.Generic(
                         title = BitwardenString.an_error_has_occurred.asText(),
-                        message = result
-                            .errorMessage
-                            ?.asText()
+                        message = result.error.level2MessageOrNull()
+                            ?: result
+                                .errorMessage
+                                ?.asText()
                             ?: BitwardenString.generic_error_message.asText(),
                         error = result.error,
                     ),
@@ -2302,7 +2359,10 @@ class VaultAddEditViewModel @Inject constructor(
                             null
                         }
 
-                        is GetCipherResult.Success -> result.cipherView
+                        // Level 2 fields are edited decrypted; saving re-seals them.
+                        is GetCipherResult.Success -> runCatching {
+                            vaultRepository.decryptL2(result.cipherView)
+                        }.getOrDefault(result.cipherView)
                     }
                 }
                 .validateCipherOrReturnErrorState(
@@ -2700,6 +2760,17 @@ class VaultAddEditViewModel @Inject constructor(
 
     @Suppress("MaxLineLength")
     private suspend fun VaultAddEditState.ViewState.Content.createCipherForAddAndCloneItemStates(): CreateCipherResult {
+        if (type is VaultAddEditState.ViewState.Content.ItemType.Login &&
+            mutableLevel2.value?.enabled == true
+        ) {
+            // Level 2 is personal: the L2 key is this user's, organization members can't read it.
+            if (common.selectedOwnerId != null) {
+                return CreateCipherResult.Error(error = L2PersonalOnlyException())
+            }
+            return vaultRepository.createCipherAtL2(
+                cipherView = toCipherView(clock = clock, isPremiumUser = state.hasPremium),
+            )
+        }
         return common.selectedOwner?.collections
             ?.filter { it.isSelected }
             ?.map { it.id }

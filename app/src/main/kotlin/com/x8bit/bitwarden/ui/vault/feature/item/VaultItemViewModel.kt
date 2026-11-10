@@ -60,10 +60,13 @@ import com.x8bit.bitwarden.ui.vault.util.savedSnackbarMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.IgnoredOnParcel
@@ -296,6 +299,19 @@ class VaultItemViewModel @Inject constructor(
             .onEach(::sendAction)
             .launchIn(viewModelScope)
     }
+
+    /**
+     * The stored level of this item, refreshed whenever the item changes. Fork-local and kept
+     * outside [state]: item screens only see decrypted copies, so the level must be asked for.
+     */
+    val level2StatusFlow: StateFlow<Level2ViewStatus?> = vaultRepository
+        .getVaultItemStateFlow(state.vaultItemId)
+        .map {
+            runCatching { vaultRepository.getL2Status(state.vaultItemId) }
+                .map(::Level2ViewStatus)
+                .getOrNull()
+        }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     override fun handleAction(action: VaultItemAction) {
         when (action) {

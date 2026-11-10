@@ -42,6 +42,7 @@ import com.x8bit.bitwarden.data.platform.manager.PushManager
 import com.x8bit.bitwarden.data.platform.manager.policy.UserNotificationPolicyManager
 import com.x8bit.bitwarden.data.tools.generator.datasource.disk.GeneratorDiskSource
 import com.x8bit.bitwarden.data.tools.generator.datasource.disk.PasswordHistoryDiskSource
+import com.x8bit.bitwarden.data.vault.l2.L2KeyStore
 import com.x8bit.bitwarden.data.vault.datasource.disk.VaultDiskSource
 import com.x8bit.bitwarden.data.vault.datasource.sdk.VaultSdkSource
 import com.x8bit.bitwarden.data.vault.manager.VaultLockManager
@@ -148,6 +149,7 @@ object AuthManagerModule {
         dispatcherManager: DispatcherManager,
         credentialExchangeRegistryManager: CredentialExchangeRegistryManager,
         userNotificationPolicyManager: UserNotificationPolicyManager,
+        l2KeyStore: L2KeyStore,
     ): UserLogoutManager =
         UserLogoutManagerImpl(
             authDiskSource = authDiskSource,
@@ -161,6 +163,7 @@ object AuthManagerModule {
             dispatcherManager = dispatcherManager,
             credentialExchangeRegistryManager = credentialExchangeRegistryManager,
             userNotificationPolicyManager = userNotificationPolicyManager,
+            l2KeyStore = l2KeyStore,
         )
 
     @Provides

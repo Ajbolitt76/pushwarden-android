@@ -28,7 +28,7 @@
     <permission
         android:name="${applicationId}.permission.AUTHENTICATOR_BRIDGE_SERVICE"
         android:knownCerts="@array/known_authenticator_app_certs"
-        android:label="Bitwarden Bridge"
+        android:label="PushWarden Bridge"
         android:protectionLevel="signature|knownSigner"
         tools:targetApi="s" />
 

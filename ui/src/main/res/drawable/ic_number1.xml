@@ -8,6 +8,6 @@
         android:pathData="M0,0.333h24v24h-24z"/>
     <path
         android:pathData="M11.68,18.333V8.762L9.572,9.306V7.725L12.496,6.433H13.771V18.333H11.68Z"
-        android:fillColor="#175DDC"/>
+        android:fillColor="#3A4D75"/>
   </group>
 </vector>
