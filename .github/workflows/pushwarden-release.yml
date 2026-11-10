@@ -8,6 +8,10 @@ on:
 
 permissions:
   contents: write
+  packages: read
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # settings.gradle.kts reads it for Bitwarden's SDK on GitHub Packages
 
 jobs:
   apk:
